@@ -38,7 +38,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion '1.5.31'
     }
     packagingOptions {
         resources {
@@ -62,4 +62,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    implementation 'com.joaquimverges.helium:helium-core-android:0.8.0'
+    implementation 'com.joaquimverges.helium:helium-compose:0.8.0'
+    implementation 'io.coil-kt:coil-compose:1.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.5.2'
+    implementation "org.web3j:core:4.5.14"
 }
