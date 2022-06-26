@@ -11,7 +11,7 @@ import kotlin.math.pow
 object NodeStatsFetcher {
 
     // TODO probably need to change port here
-    private val web3j = Web3j.build(HttpService("http://127.0.0.1:8545"));
+    private val web3j = Web3j.build(HttpService("http://localhost:8545"));
 
     fun fetchPeers() = web3j.adminPeers().flowable().asFlow().flowOn(Background)
     fun fetchNodeInfo() = web3j.adminNodeInfo().flowable().asFlow().flowOn(Background)
