@@ -22,7 +22,14 @@ object NodeStatsFetcher {
     fun shutDown() = web3j.shutdown()
 }
 
-fun BigInteger.toGwei() = (this.toLong() / 10.0.pow(9.0)).toLong()
+
+fun BigInteger.toGwei(): Long {
+    println("STATS_GWEI: $this")
+    if (this == BigInteger.valueOf(1000000000)) {
+        return 0
+    }
+    return (this.toLong() / 10.0.pow(9.0)).toLong()
+}
 fun BigInteger.toHumanNumber(): String {
     val n = this.toLong()
     return when {

@@ -12,6 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">#000000</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- Set a transparent .png as your icon -->
+        <item name="android:windowSplashScreenAnimatedIcon">@color/white</item>
     </style>
 
     <style name="Theme.LightNodeStats.NoActionBar">
@@ -22,4 +25,5 @@
     <style name="Theme.LightNodeStats.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.LightNodeStats.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

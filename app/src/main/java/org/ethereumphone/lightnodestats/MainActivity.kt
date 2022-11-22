@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             LightNodeStatsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    MainStatsScreen()
+                    MainStatsScreen(context = applicationContext)
                 }
             }
         }
