@@ -104,6 +104,20 @@ class StatsLogic(
                     val newestBlock = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).sendAsync().get().block
                     processEvent(Event.BlockUpdated(newestBlock))
                     processEvent(Event.IsOnline(true))
+                    nodeStatsFetcher.fetchGasPrice()
+                        .onEach { data ->
+                            processEvent(Event.GasPriceUpdated(data.gasPrice))
+                            processEvent(Event.IsOnline(true))
+                        }.catch { err ->
+                            Log.e(TAG, "error", err)
+                            when(err) {
+                                is ConnectException -> {
+                                    // No connection, probably down
+                                    processEvent(Event.IsOnline(false))
+                                }
+                            }
+                        }
+                        .launchInBlock()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     processEvent(Event.IsOnline(false))
