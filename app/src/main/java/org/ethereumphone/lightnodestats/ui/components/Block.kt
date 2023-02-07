@@ -14,14 +14,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.ethereumphone.lightnodestats.ui.theme.gray
 import org.ethereumphone.lightnodestats.ui.theme.white
+import java.math.BigInteger
 
 @Composable
 fun Block(
-    number: Int,
+    number: BigInteger,
     transactions: Int,
-    gas: Int,
+    gas: String,
 
-) {
+    ) {
     Box(
         modifier = Modifier
             //.background(Color(0xFF2C2C2C))
@@ -66,7 +67,7 @@ fun Block(
 
                 )
                 Text(
-                    text = ""+gas+"M",
+                    text = gas+"".uppercase(),
                     style = MaterialTheme.typography.button,
                     fontWeight = FontWeight.Bold,
                     color = gray
@@ -82,5 +83,5 @@ fun Block(
 @Composable
 fun PreviewBlock(
 ) {
-    Block(15949919,189,23)
+    Block(BigInteger("15949919"),189,"23")
 }

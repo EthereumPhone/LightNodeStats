@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.joaquimverges.helium.compose.AppBlock
 import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
 import kotlinx.coroutines.delay
@@ -30,80 +32,121 @@ import org.ethereumphone.lightnodestats.ui.components.Block
 import org.ethereumphone.lightnodestats.ui.components.Status
 import org.ethereumphone.lightnodestats.ui.components.StatusInfo
 import org.ethereumphone.lightnodestats.ui.components.Tinystatus
-import org.ethereumphone.lightnodestats.ui.theme.black
-import org.ethereumphone.lightnodestats.ui.theme.ethOSTheme
-import org.ethereumphone.lightnodestats.ui.theme.white
+import org.ethereumphone.lightnodestats.ui.theme.*
 
 @ExperimentalFoundationApi
 @Composable
-fun MainStatsScreen(){//context: Context) {
+fun MainStatsScreen(context: Context) {
+    val context = context
+    val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
     ethOSTheme() {
-        Box(modifier = Modifier.background(black).fillMaxSize()){
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-            ) {
-                Text(
-                    "Lightnode",
-                    style = MaterialTheme.typography.h2,
-                    fontWeight = FontWeight.Bold,
-                    color = white
-                )
-                Spacer(Modifier.height(24.dp))
-                Text(
-                    "Your personal gateway to Ethereum",
-                    style = MaterialTheme.typography.body1,
-                    color = Color.Gray,
-                    modifier = Modifier.fillMaxWidth(0.8f)
-                )
-                Spacer(Modifier.height(24.dp))
-                Status(false)
-                Spacer(Modifier.height(16.dp))
+        AppBlock(logic) { state, events ->
+            state?.let {
+                Box(modifier = Modifier.background(black).fillMaxSize()) {
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(24.dp)
+                    ) {
+                        Text(
+                            "Lightnode",
+                            style = MaterialTheme.typography.h2,
+                            fontWeight = FontWeight.Bold,
+                            color = white
+                        )
+                        Spacer(Modifier.height(24.dp))
+                        Text(
+                            "Your personal gateway to Ethereum",
+                            style = MaterialTheme.typography.body1,
+                            color = Color.Gray,
+                            modifier = Modifier.fillMaxWidth(0.8f)
+                        )
+                        Spacer(Modifier.height(24.dp))
 
-                /* Examples Blocks*/
-                val s1 = StatusInfo("Network", "Ethereum Mainnet")
-                val s2 = StatusInfo("Client","Nimbus Verify Proxy")
-                //List<StatusInfo> tmp = listOf(s1,s2)
-                val list = listOf(s1,s2)
+                        //Status(state.isOnline,)//false)
+                        //Status
+                        Status(context,state,events)
+                        //End-Status
+                        Spacer(Modifier.height(16.dp))
 
-                LazyVerticalGrid(
-                    cells = GridCells.Fixed(2),
-                    content = {
-                        items(list.size) { i ->
-                            if(i == list.size-1){
-                                Tinystatus(list[i].label,list[i].text,
-                                    Modifier
-                                        .padding(start = 8.dp)
-                                        .clip(MaterialTheme.shapes.small))
-                            } else{
-                                Tinystatus(list[i].label,list[i].text,
-                                    Modifier
-                                        .padding(end = 8.dp)
-                                        .clip(MaterialTheme.shapes.small))
+                        //Info
+                        val s1 = StatusInfo("Network", "Ethereum Mainnet")
+                        val s2 = StatusInfo("Client", "Nimbus Verify Proxy")
+                        val list = listOf(s1, s2)
+
+                        LazyVerticalGrid(
+                            cells = GridCells.Fixed(2),
+                            content = {
+                                items(list.size) { i ->
+                                    if (i == list.size - 1) {
+                                        Tinystatus(
+                                            list[i].label, list[i].text,
+                                            Modifier
+                                                .padding(start = 8.dp)
+                                                .clip(MaterialTheme.shapes.small)
+                                        )
+                                    } else {
+                                        Tinystatus(
+                                            list[i].label, list[i].text,
+                                            Modifier
+                                                .padding(end = 8.dp)
+                                                .clip(MaterialTheme.shapes.small)
+                                        )
+                                    }
+                                }
+
+                            }
+                        )
+                        Spacer(Modifier.height(36.dp))
+                        //Block Watcher
+                        Text(
+                            "Latest Blocks",
+                            style = MaterialTheme.typography.subtitle1,
+                            fontWeight = FontWeight.Bold,
+                            color = white
+                        )
+                        val listState = rememberLazyListState()
+                        val scope = rememberCoroutineScope()
+                        LazyColumn(state = listState, reverseLayout = true) {
+                            items(state.blocks.size) { index ->
+                                val block = state.blocks[index]
+                                /*Column(Modifier.fillMaxWidth()) {
+                                    Text(
+                                        "Block ${block.number}",
+                                        style = MaterialTheme.typography.h6
+                                    )
+                                    Text(
+                                        "Transactions: ${block.transactions.size} | Gas used: ${block.gasUsed.toHumanNumber()}",
+                                        color = Color.Gray
+                                    )
+                                    Divider(Modifier.padding(vertical = 8.dp))
+
+                                }*/
+                                Block(
+                                    block.number,
+                                    block.transactions.size,
+                                    block.gasUsed.toHumanNumber()
+                                )
+
+                            }
+                            scope.launch {
+                                delay(100)
+                                listState.animateScrollToItem(0, scrollOffset = 1000)
                             }
                         }
+                        //Block(15949919,189,23)
+
 
                     }
-                )
-                Spacer(Modifier.height(36.dp))
-                Text(
-                    "Block Watcher",
-                    style = MaterialTheme.typography.subtitle1,
-                    fontWeight = FontWeight.Bold,
-                    color = white
-                )
-                Block(15949919,189,23)
-
-
+                }
             }
         }
     }
 }
 
-@ExperimentalFoundationApi
+/*@ExperimentalFoundationApi
 @Preview(showBackground = true, widthDp = 390, heightDp = 800)
 @Composable
 fun PreviewMainScreen() {
     MainStatsScreen()
-}
+}*/
