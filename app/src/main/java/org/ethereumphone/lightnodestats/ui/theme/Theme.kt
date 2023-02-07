@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val ethOSColorPaletteLight = lightColors(
     primary = PrimaryLight,
@@ -24,7 +25,7 @@ private val ethOSColorPaletteDark = darkColors(
     primaryVariant = SecondaryDark,
     secondary = AccentDark,
     background = black,
-    surface = darkgray2,
+    surface = darkgray3,
     onPrimary = white,
     onSecondary = white,
     onBackground = white,
