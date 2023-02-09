@@ -123,7 +123,6 @@ fun Status(
                                 shutdownGeth.invoke(obj)
                             }
                             events.pushEvent(StatsLogic.Event.IsOnline(it))
-
                         }
                     )
                 }

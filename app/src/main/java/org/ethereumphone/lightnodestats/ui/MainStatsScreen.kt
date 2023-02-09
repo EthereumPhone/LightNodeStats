@@ -39,6 +39,8 @@ import org.ethereumphone.lightnodestats.ui.theme.*
 fun MainStatsScreen(context: Context) {
     val context = context
     val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
+    logic.pushContext(context)
+
     ethOSTheme() {
         AppBlock(logic) { state, events ->
             state?.let {
@@ -99,14 +101,31 @@ fun MainStatsScreen(context: Context) {
                         )
                         Spacer(Modifier.height(36.dp))
                         //Block Watcher
-                        Text(
-                            "Latest Blocks",
-                            style = MaterialTheme.typography.subtitle1,
-                            fontWeight = FontWeight.Bold,
-                            color = white
-                        )
-                        val listState = rememberLazyListState()
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                "Latest Blocks",
+                                style = MaterialTheme.typography.subtitle1,
+                                fontWeight = FontWeight.Bold,
+                                color = white
+                            )
+                            Spacer(Modifier.weight(1f))
+                            if (state.isOnline) {
+                                if (state.canGetBlocks) {
+                                    Text("⛓", style = MaterialTheme.typography.h4)
+                                } else {
+                                    CircularProgressIndicator(
+                                        Modifier
+                                            .width(24.dp)
+                                            .height(24.dp),
+                                        strokeWidth = 2.dp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
+
                         val scope = rememberCoroutineScope()
+                        val listState = rememberLazyListState()
                         LazyColumn(state = listState, reverseLayout = true) {
                             items(state.blocks.size) { index ->
                                 val block = state.blocks[index]

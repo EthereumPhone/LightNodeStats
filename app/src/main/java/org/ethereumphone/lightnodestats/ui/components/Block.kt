@@ -45,7 +45,7 @@ fun Block(
             Spacer(modifier = Modifier.height(8.dp))
             Row(){
                 Text(
-                    text = "Transaction ",
+                    text = "Transactions ",
                     style = MaterialTheme.typography.button,
                     fontWeight = FontWeight.Normal,
                     color = gray
@@ -60,7 +60,7 @@ fun Block(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "Gas ",
+                    text = "Gas price ",
                     style = MaterialTheme.typography.button,
                     fontWeight = FontWeight.Normal,
                     color = gray
