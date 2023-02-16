@@ -83,6 +83,8 @@ val dinformative400 = Color(0xFF253B3B)
 
 //Neutral Color
 
+val Surface = Color(0xFF24303D)
+
 val white = Color(0xFFFFFFFF)
 val bluegray = Color(0xFFF1F4F6)
 val lightgray = Color(0xFFF1F1F1)

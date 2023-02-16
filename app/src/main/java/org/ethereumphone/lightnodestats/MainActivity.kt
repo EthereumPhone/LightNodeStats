@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             ethOSTheme() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    MainStatsScreen(context = applicationContext)
+                    MainStatsScreen()//context = applicationContext)
                 }
             }
         }

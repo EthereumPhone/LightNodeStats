@@ -11,62 +11,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import okio.`-DeprecatedUtf8`.size
 import org.ethereumphone.lightnodestats.ui.theme.*
 
 @Composable
-fun Tinystatus(
-    label: String,
-    text: String,
-    mod: Modifier
-) {
+fun InfoBlock(text: String) {
+    Surface (
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+    ){
+        Text(
+            text = text,
+            color = Color.White,
+            lineHeight = 109.sp,
+            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold),
+            modifier = Modifier.padding(16.dp)
+        )
 
-    Surface(
-        elevation = 12.dp,
-        modifier = mod
-            //.clip(MaterialTheme.shapes.small)
-    ) {
-        Box(
-            modifier = Modifier
-                //.clip(MaterialTheme.shapes.small)
-                .background(Color(0xFF2C2C2C))
-                .padding(12.dp)
-
-        ){
-            Column() {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.h5,
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = white,
-                    )
-
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.button,
-                    color = gray
-
-                )
-            }
-        }
     }
-
 }
-
+/*
 @ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
@@ -100,5 +75,5 @@ fun PreviewTinystatus(
         }
     )
 
-}
+}*/
 
