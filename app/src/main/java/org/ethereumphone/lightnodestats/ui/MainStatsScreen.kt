@@ -2,6 +2,7 @@ package org.ethereumphone.lightnodestats.ui
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -17,7 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +31,7 @@ import com.joaquimverges.helium.compose.AppBlock
 import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.ethereumphone.lightnodestats.R
 import org.ethereumphone.lightnodestats.data.toHumanNumber
 import org.ethereumphone.lightnodestats.logic.StatsLogic
 import org.ethereumphone.lightnodestats.ui.components.*
@@ -34,14 +39,14 @@ import org.ethereumphone.lightnodestats.ui.theme.*
 
 @ExperimentalFoundationApi
 @Composable
-fun MainStatsScreen(){//context: Context) {
-    /*val context = context
+fun MainStatsScreen(context: Context) {
+    val context = context
     val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
-    logic.pushContext(context)*/
+    logic.pushContext(context)
 
     ethOSTheme() {
-        /*AppBlock(logic) { state, events ->
-            state?.let {*/
+        AppBlock(logic) { state, events ->
+            state?.let {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -115,40 +120,33 @@ fun MainStatsScreen(){//context: Context) {
                             Spacer(
                                 modifier = Modifier
                                     .width(width = 8.dp))
-                            CircularProgressIndicator(
-                                    Modifier
-                                        .width(20.dp)
-                                        .height(20.dp),
-                            strokeWidth = 2.dp,
-                            color = Color.White
-                            )
+
+                            /*if (state.isOnline) {
+                                if (state.canGetBlocks) {
+                                    Text("⛓", style = MaterialTheme.typography.h4)
+                                } else {
+                                    CircularProgressIndicator(
+                                        Modifier
+                                            .width(20.dp)
+                                            .height(20.dp),
+                                        strokeWidth = 2.dp,
+                                        color = Color.White
+                                    )
+                                }
+                            }*/
+
+
+
                         }
 
                         Spacer(
                             modifier = Modifier
                                 .height(height = 36.dp))
                         Column(){
-                            Block("15949919","189")
+                            Block("15949919","189", "0.13165")
                         }
 
-                        /*if (state.isOnline) {
-                            if (state.canGetBlocks) {
-                                Text("⛓", style = MaterialTheme.typography.h4)
-                            } else {
-                                CircularProgressIndicator(
-                                    Modifier
-                                        .width(24.dp)
-                                        .height(24.dp),
-                                    strokeWidth = 2.dp,
-                                    color = Color.Gray
-                                )
-                            }
-                        }*/
-                        //Text("⛓", style = MaterialTheme.typography.h4)
-
-
-
-                        /*val scope = rememberCoroutineScope()
+                        val scope = rememberCoroutineScope()
                         val listState = rememberLazyListState()
                         LazyColumn(state = listState, reverseLayout = true) {
                             items(state.blocks.size) { index ->
@@ -166,9 +164,9 @@ fun MainStatsScreen(){//context: Context) {
 
                                 }*/
                                 Block(
-                                    block.number,
-                                    block.transactions.size,
-                                    block.gasUsed.toHumanNumber()
+                                    ""+block.number,
+                                    ""+block.transactions.size,
+                                    ""+block.gasUsed.toHumanNumber()
                                 )
 
                             }
@@ -176,18 +174,18 @@ fun MainStatsScreen(){//context: Context) {
                                 delay(100)
                                 listState.animateScrollToItem(0, scrollOffset = 1000)
                             }
-                        }*/
+                        }
 
                     }
                 }
-            /*}
-        }*/
+            }
+        }
     }
 }
 
-@ExperimentalFoundationApi
+/*@ExperimentalFoundationApi
 @Preview(showBackground = true, widthDp = 390, heightDp = 800)
 @Composable
 fun PreviewMainScreen() {
     MainStatsScreen()
-}
+}*/

@@ -1,5 +1,5 @@
 package org.ethereumphone.lightnodestats.ui.components
-
+import org.ethereumphone.lightnodestats.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,6 +27,7 @@ import java.math.BigInteger
 @Composable
 fun Block(
     number: String,
+    tx: String,
     gas: String
 ) {
 
@@ -43,8 +44,8 @@ fun Block(
             ) {
                 Surface(
                     modifier = Modifier
-                        .width(width = 48.dp)
-                        .height(height = 48.dp)
+                        .width(width = 56.dp)
+                        .height(height = 56.dp)
                         .clip(RoundedCornerShape(12.dp))
                 ) {
                     Image(
@@ -65,25 +66,25 @@ fun Block(
                     Text(
                         text = ""+number,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         color = Color.White
 
                     )
                     Row(
                         verticalAlignment= Alignment.CenterVertically
                     ){
-                        /*Image(
-                            painter = painterResource(id = R.drawable.ic_clock),
-                            contentDescription = "Clock",
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_chart),
+                            contentDescription = "Chart",
                             contentScale = ContentScale.Inside,
                             colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
-                            modifier = Modifier.size(12.dp)
-                        )*/
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(
                             modifier = Modifier
                                 .width(width = 8.dp))
                         Text(
-                            text = "12 seconds ago",
+                            text = tx,
                             fontWeight = FontWeight.Normal,
                             fontSize = 12.sp,
                             color = Color(0xFFC8C8C8)
@@ -91,13 +92,13 @@ fun Block(
                         Spacer(
                             modifier = Modifier
                                 .width(width = 16.dp))
-                        /*Image(
+                        Image(
                             painter = painterResource(id = R.drawable.ic_ether),
                             contentDescription = "Ether",
                             contentScale = ContentScale.Inside,
                             colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
                             modifier = Modifier.size(12.dp)
-                        )*/
+                        )
                         Spacer(
                             modifier = Modifier
                                 .width(width = 8.dp))
@@ -120,5 +121,5 @@ fun Block(
 @Composable
 fun PreviewBlock(
 ) {
-    Block("15949919","189")
+    Block("15949919","189", "0.13165")
 }
