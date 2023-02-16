@@ -11,9 +11,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +41,7 @@ fun MainStatsScreen(context: Context) {
     val context = context
     val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
     logic.pushContext(context)
+
 
     ethOSTheme() {
         AppBlock(logic) { state, events ->
@@ -76,10 +75,9 @@ fun MainStatsScreen(context: Context) {
                         Spacer(
                             modifier = Modifier
                                 .height(height = 28.dp))
-                        ethOSSwitch(checked = true,//checkedState.value,
+                        ethOSSwitch(checked = state.isOnline,
                             onCheckedChange = {
-                                //checkedState.value = it
-                                /*val cls = Class.forName("android.os.GethProxy")
+                                val cls = Class.forName("android.os.GethProxy")
                                 val obj = context.getSystemService("geth");
                                 if (it) {
                                     // Turn on light client
@@ -90,7 +88,7 @@ fun MainStatsScreen(context: Context) {
                                     val shutdownGeth = cls.getMethod("shutdownGeth")
                                     shutdownGeth.invoke(obj)
                                 }
-                                events.pushEvent(StatusLogic.Event.IsOnline(it))*/
+                                events.pushEvent(StatsLogic.Event.IsOnline(it))
                             })
                         Spacer(
                             modifier = Modifier
@@ -142,10 +140,6 @@ fun MainStatsScreen(context: Context) {
                         Spacer(
                             modifier = Modifier
                                 .height(height = 36.dp))
-                        Column(){
-                            Block("15949919","189", "0.13165")
-                        }
-
                         val scope = rememberCoroutineScope()
                         val listState = rememberLazyListState()
                         LazyColumn(state = listState, reverseLayout = true) {
@@ -168,7 +162,6 @@ fun MainStatsScreen(context: Context) {
                                     ""+block.transactions.size,
                                     ""+block.gasUsed.toHumanNumber()
                                 )
-
                             }
                             scope.launch {
                                 delay(100)
