@@ -1,149 +1,117 @@
-package org.ethereumphone.lightnodestats.ui.components
-
-import android.content.Context
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.DragInteraction
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.joaquimverges.helium.compose.AppBlock
-import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
-import org.ethereumphone.lightnodestats.logic.StatsLogic
+import kotlinx.coroutines.flow.collect
+import org.ethereumphone.lightnodestats.ui.theme.ethOSTheme
+import kotlin.math.roundToInt
 
-/*
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun text(context: Context){
-    val context = context
-    val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
-    AppBlock(logic) { state, events ->
-        state?.let {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(24.dp)
-    ) {
-        Text(
-            "ethOS Node",
-            style = MaterialTheme.typography.h2,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            "Your personal gateway to Ethereum",
-            style = MaterialTheme.typography.subtitle1,
-            color = Color.Gray
-        )
-        Spacer(Modifier.height(24.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("Status", style = MaterialTheme.typography.h5)
-            Divider(
-                Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp)
-            )
-            if (state.isOnline) {
-                Text("✅", style = MaterialTheme.typography.h5)
-            } else {
-                Text("❌", style = MaterialTheme.typography.h5)
-            }
-        }
-        /*
-        Spacer(Modifier.height(12.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("Connections", style = MaterialTheme.typography.h5)
-            Divider(
-                Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp)
-            )
-            Text("${state.peerCount} peers", style = MaterialTheme.typography.h5)
-        }
-         */
-        Spacer(Modifier.height(12.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("Gas Price", style = MaterialTheme.typography.h5)
-            Divider(
-                Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp)
-            )
-            //Text("${state.gasPrice} gwei", style = MaterialTheme.typography.h5)
-        }
-        Spacer(Modifier.height(12.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("Run Node", style = MaterialTheme.typography.h5)
-            Divider(
-                Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp)
-            )
-            Switch(
-                checked = true,//state.isOnline,
-                onCheckedChange = {
-                    val cls = Class.forName("android.os.GethProxy")
-                    val obj = context.getSystemService("geth");
-                    if (it) {
-                        // Turn on light client
-                        val startGeth = cls.getMethod("startGeth")
-                        startGeth.invoke(obj)
-                    } else {
-                        // Turn off light client
-                        val shutdownGeth = cls.getMethod("shutdownGeth")
-                        shutdownGeth.invoke(obj)
-                    }
-                    events.pushEvent(StatsLogic.Event.IsOnline(it))
-                }
-            )
-        }
-        Spacer(Modifier.height(48.dp))
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                "Block Watcher",
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(Modifier.weight(1f))
-            if (true){//state.isOnline) {
-                CircularProgressIndicator(
-                    Modifier
-                        .width(24.dp)
-                        .height(24.dp),
-                    strokeWidth = 2.dp,
-                    color = Color.Gray
-                )
-            }
-        }
-        Divider(Modifier.padding(vertical = 8.dp))
-        Spacer(Modifier.height(12.dp))
-        val listState = rememberLazyListState()
-        val scope = rememberCoroutineScope()
-        /*LazyColumn(state = listState, reverseLayout = true) {
-            items(state.blocks.size) { index ->
-                val block = state.blocks[index]
-                Column(Modifier.fillMaxWidth()) {
-                    Text(
-                        "Block ${block.number}",
-                        style = MaterialTheme.typography.h6
-                    )
-                    Text(
-                        "Transactions: ${block.transactions.size} | Gas used: ${block.gasUsed.toHumanNumber()}",
-                        color = Color.Gray
-                    )
-                    Divider(Modifier.padding(vertical = 8.dp))
-                }
+fun TestSwitch(
+    //checked: Boolean,
+    //onCheckedChange: ((Boolean) -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: SwitchColors = SwitchDefaults.colors(),
+    onCheckedChange: (Boolean) -> Unit
+) {
+
+    var switchON by remember {
+        mutableStateOf(enabled) // Initially the switch is ON
+    }
+
+    val startValue = if(enabled) 1f else -1f
+
+    var horizontalBias by remember { mutableStateOf(startValue) }
+    val alignment by animateHorizontalAlignmentAsState(horizontalBias)
+    BoxWithConstraints(
+        modifier = Modifier
+            .clip(RoundedCornerShape(50.dp))
+            .background(if (horizontalBias == -1f) Color(0xFFC8C8C8) else Color(0xFF94DE7E))
+            .padding(horizontal = 4.dp, vertical = 4.dp)
+            .clickable {
+                horizontalBias *= -1f
+                switchON = horizontalBias == 1f
+                onCheckedChange(switchON)
 
             }
-            scope.launch {
-                delay(100)
-                listState.animateScrollToItem(0, scrollOffset = 1000)
+
+    ) {
+            Box(
+                modifier = Modifier
+                    .size(25.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .align(alignment)
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                Text(text = "on".uppercase(), modifier = Modifier.padding(start=8.dp), color = if (horizontalBias == 1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = "off".uppercase(), modifier = Modifier.padding(end=8.dp), color = if (horizontalBias == -1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
             }
-        }*/
     }
-    /*}
-}*/
+}
+
+@Composable
+private fun animateHorizontalAlignmentAsState(
+    targetBiasValue: Float
+): State<BiasAlignment> {
+    val bias by animateFloatAsState(targetBiasValue)
+    return derivedStateOf { BiasAlignment(horizontalBias = bias, verticalBias = 0f) }
+}
+
+@Preview
+@Composable
+fun TestPeview() {
+    TestSwitch() {}
+}
+
+
+/*@Preview(showBackground = true, widthDp = 390, heightDp = 800)
+@Composable
+fun PreviewMainScreen() {
+    ethOSTheme() {
+        TestSwitch()
+    }
+
 }*/
