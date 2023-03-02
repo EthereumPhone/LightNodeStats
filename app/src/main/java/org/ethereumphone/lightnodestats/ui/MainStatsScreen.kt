@@ -21,6 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +44,13 @@ fun MainStatsScreen(context: Context) {
     val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
     logic.pushContext(context)
 
-
+    val Inter = FontFamily(
+        Font(R.font.inter_light,FontWeight.Light),
+        Font(R.font.inter_regular,FontWeight.Normal),
+        Font(R.font.inter_medium,FontWeight.Medium),
+        Font(R.font.inter_semibold,FontWeight.SemiBold),
+        Font(R.font.inter_bold, FontWeight.Bold)
+    )
     ethOSTheme() {
         AppBlock(logic) { state, events ->
             state?.let {
@@ -54,7 +62,6 @@ fun MainStatsScreen(context: Context) {
                         .background(color = Color(0xff1e2730))
                 ) {
                     Column(
-
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -70,7 +77,8 @@ fun MainStatsScreen(context: Context) {
                             lineHeight = 109.sp,
                             style = TextStyle(
                                 fontSize = 40.sp,
-                                fontWeight = FontWeight.Bold)
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = Inter)
                         )
                         Spacer(
                             modifier = Modifier
@@ -113,13 +121,15 @@ fun MainStatsScreen(context: Context) {
                                 lineHeight = 109.sp,
                                 style = TextStyle(
                                     fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold)
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = Inter
+                                )
                             )
                             Spacer(
                                 modifier = Modifier
                                     .width(width = 8.dp))
 
-                            /*if (state.isOnline) {
+                            if (state.isOnline) {
                                 if (state.canGetBlocks) {
                                     Text("⛓", style = MaterialTheme.typography.h4)
                                 } else {
@@ -131,7 +141,7 @@ fun MainStatsScreen(context: Context) {
                                         color = Color.White
                                     )
                                 }
-                            }*/
+                            }
 
 
 

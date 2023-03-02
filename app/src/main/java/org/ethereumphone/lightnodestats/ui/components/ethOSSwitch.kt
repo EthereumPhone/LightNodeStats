@@ -19,9 +19,13 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.ethereumphone.lightnodestats.R
 
 @Composable
 fun ethOSSwitch(
@@ -36,6 +40,13 @@ fun ethOSSwitch(
     onCheckedChange: ((Boolean) -> Unit)?,
 
     ) {
+    val Inter = FontFamily(
+        Font(R.font.inter_light, FontWeight.Light),
+        Font(R.font.inter_regular, FontWeight.Normal),
+        Font(R.font.inter_medium, FontWeight.Medium),
+        Font(R.font.inter_semibold, FontWeight.SemiBold),
+        Font(R.font.inter_bold, FontWeight.Bold)
+    )
 
     val switchON = remember {
         mutableStateOf(checked) // Initially the switch is ON

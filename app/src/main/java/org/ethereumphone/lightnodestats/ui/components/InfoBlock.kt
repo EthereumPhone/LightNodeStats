@@ -19,9 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import okio.`-DeprecatedUtf8`.size
+import org.ethereumphone.lightnodestats.R
 import org.ethereumphone.lightnodestats.ui.theme.*
 
 @Composable
@@ -31,11 +34,22 @@ fun InfoBlock(text: String) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
     ){
+        val Inter = FontFamily(
+            Font(R.font.inter_light,FontWeight.Light),
+            Font(R.font.inter_regular,FontWeight.Normal),
+            Font(R.font.inter_medium,FontWeight.Medium),
+            Font(R.font.inter_semibold,FontWeight.SemiBold),
+            Font(R.font.inter_bold, FontWeight.Bold)
+        )
         Text(
             text = text,
             color = Color.White,
             lineHeight = 109.sp,
-            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold),
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = Inter
+            ),
             modifier = Modifier.padding(16.dp)
         )
 
