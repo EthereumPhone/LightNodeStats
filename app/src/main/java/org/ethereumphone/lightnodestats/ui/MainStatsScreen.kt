@@ -180,18 +180,7 @@ fun MainStatsScreen(context: Context) {
                         LazyColumn(state = listState, reverseLayout = true) {
                             items(state.blocks.size) { index ->
                                 val block = state.blocks[index]
-                                Column(Modifier.fillMaxWidth()) {
-                                    Text(
-                                        "Block ${block.number}",
-                                        style = MaterialTheme.typography.h6
-                                    )
-                                    Text(
-                                        "Transactions: ${block.transactions.size} | Gas used: ${block.gasUsed.toHumanNumber()}",
-                                        color = Color.Gray
-                                    )
-                                    Divider(Modifier.padding(vertical = 8.dp))
 
-                                }
                                 Block(
                                     ""+block.number,
                                     ""+block.transactions.size,
