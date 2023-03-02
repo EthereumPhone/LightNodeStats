@@ -1,5 +1,6 @@
 package org.ethereumphone.lightnodestats.ui
 
+import TestSwitch
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -83,7 +84,31 @@ fun MainStatsScreen(context: Context) {
                         Spacer(
                             modifier = Modifier
                                 .height(height = 28.dp))
-                        ethOSSwitch(checked = state.isOnline,
+
+
+                            Box(modifier = Modifier.width(90.dp)){
+                                TestSwitch(
+                                    enabled = state.isOnline,
+                                    onCheckedChange = {
+                                        val cls = Class.forName("android.os.GethProxy")
+                                        val obj = context.getSystemService("geth");
+                                        if (it) {
+                                            // Turn on light client
+                                            val startGeth = cls.getMethod("startGeth")
+                                            startGeth.invoke(obj)
+                                        } else {
+                                            // Turn off light client
+                                            val shutdownGeth = cls.getMethod("shutdownGeth")
+                                            shutdownGeth.invoke(obj)
+                                        }
+                                        events.pushEvent(StatsLogic.Event.IsOnline(it))
+                                    }
+                                )
+                            }
+
+
+
+                        /*ethOSSwitch(checked = state.isOnline,
                             onCheckedChange = {
                                 val cls = Class.forName("android.os.GethProxy")
                                 val obj = context.getSystemService("geth");
@@ -97,7 +122,7 @@ fun MainStatsScreen(context: Context) {
                                     shutdownGeth.invoke(obj)
                                 }
                                 events.pushEvent(StatsLogic.Event.IsOnline(it))
-                            })
+                            })*/
                         Spacer(
                             modifier = Modifier
                                 .height(height = 45.dp))
@@ -155,7 +180,7 @@ fun MainStatsScreen(context: Context) {
                         LazyColumn(state = listState, reverseLayout = true) {
                             items(state.blocks.size) { index ->
                                 val block = state.blocks[index]
-                                /*Column(Modifier.fillMaxWidth()) {
+                                Column(Modifier.fillMaxWidth()) {
                                     Text(
                                         "Block ${block.number}",
                                         style = MaterialTheme.typography.h6
@@ -166,7 +191,7 @@ fun MainStatsScreen(context: Context) {
                                     )
                                     Divider(Modifier.padding(vertical = 8.dp))
 
-                                }*/
+                                }
                                 Block(
                                     ""+block.number,
                                     ""+block.transactions.size,
@@ -186,9 +211,9 @@ fun MainStatsScreen(context: Context) {
     }
 }
 
-/*@ExperimentalFoundationApi
+@ExperimentalFoundationApi
 @Preview(showBackground = true, widthDp = 390, heightDp = 800)
 @Composable
 fun PreviewMainScreen() {
-    MainStatsScreen()
-}*/
+    MainStatsScreen(LocalContext.current)
+}
