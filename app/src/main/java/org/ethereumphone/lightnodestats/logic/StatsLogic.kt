@@ -62,9 +62,15 @@ class StatsLogic(
                     is Event.BlockUpdated -> state.apply {
                         if (blocks.size > 0) {
                             if (blocks.get(blocks.size - 1).number != event.block.number) {
+                                if (blocks.size>=10) {
+                                    blocks.removeAt(0)
+                                }
                                 blocks.add(event.block)
                             }
                         } else {
+                            if (blocks.size>=10) {
+                                blocks.removeAt(0)
+                            }
                             blocks.add(event.block)
                         }
 
