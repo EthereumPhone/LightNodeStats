@@ -2,6 +2,8 @@ package org.ethereumphone.lightnodestats.ui
 
 import TestSwitch
 import android.content.Context
+import android.content.Intent
+import android.provider.MediaStore
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.joaquimverges.helium.compose.AppBlock
 import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
 import kotlinx.coroutines.delay
@@ -37,6 +40,7 @@ import org.ethereumphone.lightnodestats.data.toHumanNumber
 import org.ethereumphone.lightnodestats.logic.StatsLogic
 import org.ethereumphone.lightnodestats.ui.components.*
 import org.ethereumphone.lightnodestats.ui.theme.*
+import org.web3j.protocol.core.methods.response.EthBlock
 
 @ExperimentalFoundationApi
 @Composable
@@ -44,6 +48,12 @@ fun MainStatsScreen(context: Context) {
     val context = context
     val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
     logic.pushContext(context)
+    val cls = Class.forName("android.os.GethProxy")
+    val obj = context.getSystemService("geth")
+    val getCurrentClient = cls.getMethod("getCurrentClient")
+    var showBlockInfo = remember { mutableStateOf(false) }
+    var currentBlockToShow = remember { mutableStateOf<EthBlock.Block?>(null) }
+    val uiContext = LocalContext.current
 
     val Inter = FontFamily(
         Font(R.font.inter_light,FontWeight.Light),
@@ -55,6 +65,59 @@ fun MainStatsScreen(context: Context) {
     ethOSTheme() {
         AppBlock(logic) { state, events ->
             state?.let {
+                val isOnlineVar = remember { mutableStateOf(state.isOnline) }
+                var canGetBlocksVar = remember { mutableStateOf(state.canGetBlocks) }
+                if (showBlockInfo.value) {
+                    AlertDialog(
+                        // Center the buttons inside the dialog
+
+                        onDismissRequest = {
+                            showBlockInfo.value = false
+                        },
+                        /*
+                        title = {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(text="Block Info", fontWeight = FontWeight.Bold, fontSize = 32.sp, fontFamily = Inter)
+                        },
+                         */
+                        buttons = {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(320.dp)
+                                    .padding(
+                                        horizontal = 16.dp
+                                    ),
+                                verticalArrangement = Arrangement.Center,
+                            ) {
+                                if (currentBlockToShow.value != null) {
+                                    Text(text="Block number", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
+                                    Text(text= currentBlockToShow.value!!.number.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
+                                    Divider()
+                                    Text(text="Timestamp", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
+                                    Text(text= currentBlockToShow.value!!.timestamp.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
+                                    Divider()
+                                    Text(text="Validator", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
+                                    Text(text= currentBlockToShow.value!!.miner.substring(0, 5)+"..."+currentBlockToShow.value!!.miner.substring(currentBlockToShow.value!!.miner.length-3, currentBlockToShow.value!!.miner.length), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
+                                    Divider()
+                                    Text(text="Gas used", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
+                                    Text(text= currentBlockToShow.value!!.gasUsed.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
+                                    Divider()
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Button(onClick = {
+                                        val intent = Intent(Intent.ACTION_VIEW, "https://etherscan.io/block/${currentBlockToShow.value!!.number}".toUri())
+                                        uiContext.startActivity(intent)
+                                    }) {
+                                        Text(text = "Open in etherscan")
+                                    }
+                                } else {
+                                    showBlockInfo.value = false
+                                }
+
+                            }
+                        }
+                    )
+                }
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -88,10 +151,8 @@ fun MainStatsScreen(context: Context) {
 
                             Box(modifier = Modifier.width(90.dp)){
                                 TestSwitch(
-                                    enabled = state.isOnline,
+                                    switchON = isOnlineVar,
                                     onCheckedChange = {
-                                        val cls = Class.forName("android.os.GethProxy")
-                                        val obj = context.getSystemService("geth");
                                         if (it) {
                                             // Turn on light client
                                             val startGeth = cls.getMethod("startGeth")
@@ -132,7 +193,54 @@ fun MainStatsScreen(context: Context) {
                             Spacer(
                                 modifier = Modifier
                                     .height(height = 16.dp))
-                            InfoBlock(text = "Nimbus client")
+                            //InfoBlock(text = "Nimbus client")
+                            val currentClientText = getCurrentClient.invoke(obj) as String
+                            val optionsArray = if (currentClientText == "Nimbus") {
+                                arrayOf("Nimbus client", "Helios Client")
+                            } else {
+                                arrayOf("Helios Client", "Nimbus client")
+                            }
+                            SwitchBlock(
+                                options = optionsArray
+                            ) {
+                                println("Selected $it")
+                                var before = state.isOnline
+
+                                if (before) {
+                                    // Turn of client first
+                                    val shutdownGeth = cls.getMethod("shutdownGeth")
+                                    shutdownGeth.invoke(obj)
+                                    events.pushEvent(StatsLogic.Event.IsOnline(false))
+                                    isOnlineVar.value = false
+                                    events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+                                    state.canGetBlocks = false
+                                }
+                                val changeClient = cls.getMethod("changeClient", String::class.java)
+                                if (it == "Nimbus client") {
+                                    changeClient.invoke(obj, "Nimbus")
+                                } else {
+                                    changeClient.invoke(obj, "Helios")
+                                }
+
+                                if (before) {
+                                    // Start client again
+                                    // Delay the starting of the client
+                                    Thread {
+                                        Thread.sleep(1000)
+                                        val startGeth = cls.getMethod("startGeth")
+                                        startGeth.invoke(obj)
+                                        events.pushEvent(StatsLogic.Event.IsOnline(true))
+                                        isOnlineVar.value = true
+                                        events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+                                        state.canGetBlocks = false
+                                        events.pushEvent(StatsLogic.Event.IsOnline(true))
+                                        state.isOnline = true
+                                        canGetBlocksVar.value = false
+                                    }.start()
+                                }
+
+                                state.blocks.clear()
+                            }
                         }
                         Spacer(
                             modifier = Modifier
@@ -155,7 +263,7 @@ fun MainStatsScreen(context: Context) {
                                     .width(width = 8.dp))
 
                             if (state.isOnline) {
-                                if (state.canGetBlocks) {
+                                if (isOnlineVar.value && state.blocks.size > 0) {
                                     Text("⛓", style = MaterialTheme.typography.h4)
                                 } else {
                                     CircularProgressIndicator(
@@ -180,12 +288,14 @@ fun MainStatsScreen(context: Context) {
                         LazyColumn(state = listState, reverseLayout = true) {
                             items(state.blocks.size) { index ->
                                 val block = state.blocks[index]
-
                                 Block(
                                     ""+block.number,
                                     ""+block.transactions.size,
                                     ""+block.gasUsed.toHumanNumber()
-                                )
+                                ) {
+                                    currentBlockToShow.value = block
+                                    showBlockInfo.value = true
+                                }
                             }
                             scope.launch {
                                 delay(100)
