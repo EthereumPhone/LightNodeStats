@@ -18,6 +18,7 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.EthBlock
 import org.web3j.protocol.core.methods.response.admin.AdminPeers
+import org.web3j.protocol.http.HttpService
 import java.math.BigInteger
 import java.net.ConnectException
 
@@ -77,7 +78,7 @@ class StatsLogic(
             }.onEach { pushState(it) }
             .launchInBlock()
 
-        val web3j = Web3j.build(EthHttpService("http://127.0.0.1:8545"))
+        val web3j = Web3j.build(HttpService("http://127.0.0.1:8545"))
 
 
         /*
@@ -127,6 +128,15 @@ class StatsLogic(
         // Getting newest block
         // PoS Ethereum has blocks every 12 seconds
         val mainHandler = Handler(Looper.getMainLooper())
+        web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, false).sendAsync().whenComplete { ethBlock, throwable ->
+            if (ethBlock == null) {
+                Log.e(TAG, "Error getting first block", throwable)
+                processEvent(Event.IsOnline(isRunning.invoke(gethservice) as Boolean))
+                return@whenComplete
+            } else {
+                println("Block number: "+ethBlock.block.number)
+            }
+        }
 
         mainHandler.post(object : Runnable {
             override fun run() {
@@ -165,6 +175,7 @@ class StatsLogic(
                     e.printStackTrace()
                     processEvent(Event.IsOnline(isRunning.invoke(gethservice) as Boolean))
                 }
+
                 mainHandler.postDelayed(this, 13000)
 
 
