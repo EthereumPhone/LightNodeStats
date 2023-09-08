@@ -132,9 +132,9 @@ fun MainStatsScreen(context: Context) {
                             Spacer(
                                 modifier = Modifier
                                     .height(height = 16.dp))
-                            //InfoBlock(text = "Nimbus client")
-                            //val currentClientText = getCurrentClient.invoke(obj) as String
-                            val optionsArray = if ("currentClientText" == "Nimbus") {
+                            InfoBlock(text = "Nimbus client")
+                            val currentClientText = getCurrentClient.invoke(obj) as String
+                            val optionsArray = if (currentClientText == "Nimbus") {
                                 arrayOf("Nimbus client", "Helios Client")
                             } else {
                                 arrayOf("Helios Client", "Nimbus client")
