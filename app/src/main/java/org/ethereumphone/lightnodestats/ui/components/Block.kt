@@ -3,6 +3,7 @@ import org.ethereumphone.lightnodestats.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -28,11 +29,14 @@ import java.math.BigInteger
 fun Block(
     number: String,
     tx: String,
-    gas: String
+    gas: String,
+    onClick: () -> Unit
 ) {
 
         Box(
-            //modifier = Modifier.clip(RoundedCornerShape(12.dp))
+            modifier = Modifier.clickable {
+                onClick()
+            }
         ) {
             Row(
                 horizontalArrangement = Arrangement.Start,
@@ -121,5 +125,7 @@ fun Block(
 @Composable
 fun PreviewBlock(
 ) {
-    Block("15949919","189", "0.13165")
+    Block("15949919","189", "0.13165") {
+
+    }
 }
