@@ -2,14 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ethereumphone.lightnodestats"
     android:sharedUserId="android.uid.system"
-    coreApp="true">
+    coreApp="true"
+    >
+    <!--
 
+
+    -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/lite_node"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.LightNodeStats">
