@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collect
+import org.ethereumphone.lightnodestats.logic.StatsLogic
 import org.ethereumphone.lightnodestats.ui.theme.ethOSTheme
 import kotlin.math.roundToInt
 
@@ -47,19 +48,13 @@ fun TestSwitch(
     //checked: Boolean,
     //onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
-    enabled: Boolean = false,
+    switchON: MutableState<Boolean>,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: SwitchColors = SwitchDefaults.colors(),
     onCheckedChange: (Boolean) -> Unit
 ) {
 
-    var switchON by remember {
-        mutableStateOf(enabled) // Initially the switch is ON
-    }
-
-    val startValue = if(enabled) 1f else -1f
-
-    var horizontalBias by remember { mutableStateOf(startValue) }
+    var horizontalBias = if (switchON.value) 1f else -1f
     val alignment by animateHorizontalAlignmentAsState(horizontalBias)
     BoxWithConstraints(
         modifier = Modifier
@@ -68,9 +63,8 @@ fun TestSwitch(
             .padding(horizontal = 4.dp, vertical = 4.dp)
             .clickable {
                 horizontalBias *= -1f
-                switchON = horizontalBias == 1f
-                onCheckedChange(switchON)
-
+                switchON.value = horizontalBias == 1f
+                onCheckedChange(switchON.value)
             }
 
     ) {
@@ -103,7 +97,9 @@ private fun animateHorizontalAlignmentAsState(
 @Preview
 @Composable
 fun TestPeview() {
-    TestSwitch() {}
+    val isOnlineVar = remember { mutableStateOf(false) }
+
+    TestSwitch(switchON = isOnlineVar) {}
 }
 
 
