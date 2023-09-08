@@ -68,54 +68,10 @@ fun MainStatsScreen(context: Context) {
                 val isOnlineVar = remember { mutableStateOf(state.isOnline) }
                 var canGetBlocksVar = remember { mutableStateOf(state.canGetBlocks) }
                 if (showBlockInfo.value) {
-                    AlertDialog(
-                        // Center the buttons inside the dialog
-
-                        onDismissRequest = {
-                            showBlockInfo.value = false
-                        },
-                        /*
-                        title = {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(text="Block Info", fontWeight = FontWeight.Bold, fontSize = 32.sp, fontFamily = Inter)
-                        },
-                         */
-                        buttons = {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(320.dp)
-                                    .padding(
-                                        horizontal = 16.dp
-                                    ),
-                                verticalArrangement = Arrangement.Center,
-                            ) {
-                                if (currentBlockToShow.value != null) {
-                                    Text(text="Block number", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
-                                    Text(text= currentBlockToShow.value!!.number.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
-                                    Divider()
-                                    Text(text="Timestamp", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
-                                    Text(text= currentBlockToShow.value!!.timestamp.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
-                                    Divider()
-                                    Text(text="Validator", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
-                                    Text(text= currentBlockToShow.value!!.miner.substring(0, 5)+"..."+currentBlockToShow.value!!.miner.substring(currentBlockToShow.value!!.miner.length-3, currentBlockToShow.value!!.miner.length), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
-                                    Divider()
-                                    Text(text="Gas used", fontWeight = FontWeight.SemiBold, fontSize = 20.sp, fontFamily = Inter)
-                                    Text(text= currentBlockToShow.value!!.gasUsed.toString(), fontWeight = FontWeight.Medium, fontSize = 15.sp, fontFamily = Inter)
-                                    Divider()
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    Button(onClick = {
-                                        val intent = Intent(Intent.ACTION_VIEW, "https://etherscan.io/block/${currentBlockToShow.value!!.number}".toUri())
-                                        uiContext.startActivity(intent)
-                                    }) {
-                                        Text(text = "Open in etherscan")
-                                    }
-                                } else {
-                                    showBlockInfo.value = false
-                                }
-
-                            }
-                        }
+                    BlockDialog(
+                        currentBlockToShow = currentBlockToShow,
+                        setShowDialog={ showBlockInfo.value = false },
+                        uiContext = uiContext
                     )
                 }
                 Box(
@@ -167,23 +123,6 @@ fun MainStatsScreen(context: Context) {
                                 )
                             }
 
-
-
-                        /*ethOSSwitch(checked = state.isOnline,
-                            onCheckedChange = {
-                                val cls = Class.forName("android.os.GethProxy")
-                                val obj = context.getSystemService("geth");
-                                if (it) {
-                                    // Turn on light client
-                                    val startGeth = cls.getMethod("startGeth")
-                                    startGeth.invoke(obj)
-                                } else {
-                                    // Turn off light client
-                                    val shutdownGeth = cls.getMethod("shutdownGeth")
-                                    shutdownGeth.invoke(obj)
-                                }
-                                events.pushEvent(StatsLogic.Event.IsOnline(it))
-                            })*/
                         Spacer(
                             modifier = Modifier
                                 .height(height = 45.dp))
@@ -194,8 +133,8 @@ fun MainStatsScreen(context: Context) {
                                 modifier = Modifier
                                     .height(height = 16.dp))
                             //InfoBlock(text = "Nimbus client")
-                            val currentClientText = getCurrentClient.invoke(obj) as String
-                            val optionsArray = if (currentClientText == "Nimbus") {
+                            //val currentClientText = getCurrentClient.invoke(obj) as String
+                            val optionsArray = if ("currentClientText" == "Nimbus") {
                                 arrayOf("Nimbus client", "Helios Client")
                             } else {
                                 arrayOf("Helios Client", "Nimbus client")

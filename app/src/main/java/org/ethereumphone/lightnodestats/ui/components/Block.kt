@@ -125,7 +125,12 @@ fun Block(
 @Composable
 fun PreviewBlock(
 ) {
-    Block("15949919","189", "0.13165") {
+    Column(
+        modifier = Modifier.background(Color.Red)
+    ) {
+        Block("15949919","189", "0.13165") {
 
+        }
     }
+
 }
