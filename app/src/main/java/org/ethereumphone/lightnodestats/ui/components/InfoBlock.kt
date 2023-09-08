@@ -55,6 +55,13 @@ fun InfoBlock(text: String) {
 
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewTinystatus(
+) {
+    InfoBlock("Network: Ethereum Mainnet")
+}
 /*
 @ExperimentalFoundationApi
 @Preview(showBackground = true)
