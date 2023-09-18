@@ -128,16 +128,16 @@ fun MainStatsScreen(context: Context) {
                                 .height(height = 45.dp))
 
                         Column() {
-                            InfoBlock(text = "Ethereum main network")
+                            InfoBlock(text = "Ethereum mainnet")
                             Spacer(
                                 modifier = Modifier
                                     .height(height = 16.dp))
                             InfoBlock(text = "Nimbus client")
                             val currentClientText = getCurrentClient.invoke(obj) as String
                             val optionsArray = if (currentClientText == "Nimbus") {
-                                arrayOf("Nimbus client", "Helios Client")
+                                arrayOf("Nimbus client", "Helios client")
                             } else {
-                                arrayOf("Helios Client", "Nimbus client")
+                                arrayOf("Helios client", "Nimbus client")
                             }
                             SwitchBlock(
                                 options = optionsArray
