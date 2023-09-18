@@ -77,7 +77,10 @@ fun SwitchBlock(options: Array<String>, onSelectedOption: (String) -> Unit) {
 
         DropdownMenu(
             expanded = expanded.value,
-            onDismissRequest = { expanded.value = false }
+            onDismissRequest = { expanded.value = false },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.background)
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
@@ -102,7 +105,7 @@ fun SwitchBlock(options: Array<String>, onSelectedOption: (String) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewSwitchBlock() {
-    val options = arrayOf("Option 1", "Option 2", "Option 3")
+    val options = arrayOf("Nimbus client", "Helios Client")
     SwitchBlock(options = options, onSelectedOption = {})
 }
 
