@@ -1,50 +1,24 @@
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.collect
-import org.ethereumphone.lightnodestats.logic.StatsLogic
-import org.ethereumphone.lightnodestats.ui.theme.ethOSTheme
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TestSwitch(
+fun Switch(
     //checked: Boolean,
     //onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
@@ -99,7 +73,7 @@ private fun animateHorizontalAlignmentAsState(
 fun TestPeview() {
     val isOnlineVar = remember { mutableStateOf(false) }
 
-    TestSwitch(switchON = isOnlineVar) {}
+    Switch(switchON = isOnlineVar) {}
 }
 
 
@@ -107,7 +81,7 @@ fun TestPeview() {
 @Composable
 fun PreviewMainScreen() {
     ethOSTheme() {
-        TestSwitch()
+        Switch()
     }
 
 }*/

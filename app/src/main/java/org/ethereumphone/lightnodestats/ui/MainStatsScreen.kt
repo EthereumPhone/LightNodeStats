@@ -1,6 +1,6 @@
 package org.ethereumphone.lightnodestats.ui
 
-import TestSwitch
+import Switch
 import android.content.Context
 import android.content.Intent
 import android.provider.MediaStore
@@ -106,7 +106,7 @@ fun MainStatsScreen(context: Context) {
 
 
                             Box(modifier = Modifier.width(90.dp)){
-                                TestSwitch(
+                                Switch(
                                     switchON = isOnlineVar,
                                     onCheckedChange = {
                                         if (it) {
