@@ -76,6 +76,7 @@ fun SwitchBlock(options: Array<String>, onSelectedOption: (String) -> Unit) {
         }
 
         DropdownMenu(
+            modifier = Modifier.fillMaxWidth(),
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false },
             modifier = Modifier
