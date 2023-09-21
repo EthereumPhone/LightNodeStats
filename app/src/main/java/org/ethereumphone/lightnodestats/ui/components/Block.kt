@@ -33,89 +33,90 @@ fun Block(
     onClick: () -> Unit
 ) {
 
-        Box(
-            modifier = Modifier.clickable {
-                onClick()
-            }
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment= Alignment.CenterVertically,
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp)
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .width(width = 56.dp)
-                        .height(height = 56.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_cube),
-                        contentDescription = "Cube",
-                        contentScale = ContentScale.Inside,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(10.dp)
-                    )
-
-                }
-                Spacer(
-                    modifier = Modifier
-                        .width(width = 16.dp))
-                Column(
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = ""+number,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
-                        color = Color.White
-
-                    )
-                    Row(
-                        verticalAlignment= Alignment.CenterVertically
-                    ){
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_chart),
-                            contentDescription = "Chart",
-                            contentScale = ContentScale.Inside,
-                            colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(width = 8.dp))
-                        Text(
-                            text = tx,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 12.sp,
-                            color = Color(0xFFC8C8C8)
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(width = 16.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_ether),
-                            contentDescription = "Ether",
-                            contentScale = ContentScale.Inside,
-                            colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
-                            modifier = Modifier.size(12.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(width = 8.dp))
-                        Text(text = gas,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 12.sp,
-                            color = Color(0xFFC8C8C8))
-                    }
-                }
-
-
-            }
+    Box(
+        modifier = Modifier.clickable {
+            onClick()
         }
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment= Alignment.CenterVertically,
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp)
+        ) {
+            Surface(
+                color = Color.White,
+                modifier = Modifier
+                    .width(width = 56.dp)
+                    .height(height = 56.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_cube),
+                    contentDescription = "Cube",
+                    contentScale = ContentScale.Inside,
+                    colorFilter = ColorFilter.tint(Color(0xFF24303D)),
+                    modifier = Modifier.size(10.dp)
+                )
+
+            }
+            Spacer(
+                modifier = Modifier
+                    .width(width = 16.dp))
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = ""+number,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                    color = Color.White
+
+                )
+                Row(
+                    verticalAlignment= Alignment.CenterVertically
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_chart),
+                        contentDescription = "Chart",
+                        contentScale = ContentScale.Inside,
+                        colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(width = 8.dp))
+                    Text(
+                        text = tx,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 12.sp,
+                        color = Color(0xFFC8C8C8)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(width = 16.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_ether),
+                        contentDescription = "Ether",
+                        contentScale = ContentScale.Inside,
+                        colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(width = 8.dp))
+                    Text(text = gas,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 12.sp,
+                        color = Color(0xFFC8C8C8))
+                }
+            }
+
+
+        }
+    }
 
 
 
