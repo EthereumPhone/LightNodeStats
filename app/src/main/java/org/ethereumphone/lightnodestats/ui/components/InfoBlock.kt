@@ -13,12 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,88 +28,39 @@ import org.ethereumphone.lightnodestats.R
 import org.ethereumphone.lightnodestats.ui.theme.*
 
 @Composable
-fun InfoBlock(
-    modifier: Modifier = Modifier,
-    text: String,
-    title: String = "",
-    hasTitle: Boolean,
-    icon: @Composable () -> Unit,
-) {
-    Column (
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
+fun InfoBlock(text: String) {
+    Surface (
+        modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
     ){
-        if(hasTitle){
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(
-                    //modifier = modifier.padding(start = 16.dp),
-                    text = title,
-                    fontSize = 16.sp,
-                    color = Color(0xFF9FA2A5)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                icon()
-            }
-        }
+        val Inter = FontFamily(
+            Font(R.font.inter_light,FontWeight.Light),
+            Font(R.font.inter_regular,FontWeight.Normal),
+            Font(R.font.inter_medium,FontWeight.Medium),
+            Font(R.font.inter_semibold,FontWeight.SemiBold),
+            Font(R.font.inter_bold, FontWeight.Bold)
+        )
+        Text(
+            text = text,
+            color = Color.White,
+            lineHeight = 109.sp,
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = Inter
+            ),
+            modifier = Modifier.padding(16.dp)
+        )
 
-        Surface (
-                modifier = modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                ){
-            val Inter = FontFamily(
-                Font(R.font.inter_light,FontWeight.Light),
-                Font(R.font.inter_regular,FontWeight.Normal),
-                Font(R.font.inter_medium,FontWeight.Medium),
-                Font(R.font.inter_semibold,FontWeight.SemiBold),
-                Font(R.font.inter_bold, FontWeight.Bold)
-            )
-            Text(
-                text = text,
-                color = Color.White,
-                lineHeight = 109.sp,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = Inter
-                ),
-                modifier = Modifier.padding(16.dp)
-            )
-
-        }
     }
-
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewTinystatus(
 ) {
-    InfoBlock(
-        text = "Ethereum mainnet",
-        title = "Network",
-        hasTitle = true,
-        icon = {
-            IconButton(
-                modifier = Modifier.size(16.dp),
-                onClick = {}//}
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "Information",
-                    tint = Color(0xFF9FA2A5),
-                    modifier = Modifier
-                        .clip(CircleShape)
-                    //.background(Color.Red)
-                )
-            }
-        }
-    )
+    InfoBlock("Network: Ethereum Mainnet")
 }
 /*
 @ExperimentalFoundationApi

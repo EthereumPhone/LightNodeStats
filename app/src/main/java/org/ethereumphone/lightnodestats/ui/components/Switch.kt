@@ -33,7 +33,7 @@ fun Switch(
     BoxWithConstraints(
         modifier = Modifier
             .clip(RoundedCornerShape(50.dp))
-            .background(if (horizontalBias == -1f) Color(0xFF9FA2A5) else Color(0xFF94DE7E))
+            .background(if (horizontalBias == -1f) Color(0xFFC8C8C8) else Color(0xFF94DE7E))
             .padding(horizontal = 4.dp, vertical = 4.dp)
             .clickable {
                 horizontalBias *= -1f
@@ -53,9 +53,9 @@ fun Switch(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.Center)
             ) {
-                Text(text = "".uppercase(), modifier = Modifier.padding(start=8.dp), color = if (horizontalBias == 1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
+                Text(text = "on".uppercase(), modifier = Modifier.padding(start=8.dp), color = if (horizontalBias == 1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "".uppercase(), modifier = Modifier.padding(end=8.dp), color = if (horizontalBias == -1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
+                Text(text = "off".uppercase(), modifier = Modifier.padding(end=8.dp), color = if (horizontalBias == -1f) Color.White else Color.Transparent, fontWeight = FontWeight.SemiBold)
             }
     }
 }
