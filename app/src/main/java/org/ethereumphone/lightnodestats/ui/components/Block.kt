@@ -47,6 +47,7 @@ fun Block(
                     .padding(vertical = 12.dp)
             ) {
                 Surface(
+                    color = Color.White,
                     modifier = Modifier
                         .width(width = 56.dp)
                         .height(height = 56.dp)
@@ -56,7 +57,7 @@ fun Block(
                         painter = painterResource(id = R.drawable.ic_cube),
                         contentDescription = "Cube",
                         contentScale = ContentScale.Inside,
-                        colorFilter = ColorFilter.tint(Color.White),
+                        colorFilter = ColorFilter.tint(Color(0xFF24303D)),
                         modifier = Modifier.size(10.dp)
                     )
 
