@@ -225,7 +225,45 @@ fun MainStatsScreen(context: Context) {
                     }
                     SwitchBlock(
                         options = optionsArray,
-                        onSelectedOption = {},
+                        onSelectedOption = {
+                            println("Selected $it")
+                            var before = state.isOnline
+
+                            if (before) {
+                                // Turn of client first
+                                val shutdownGeth = cls.getMethod("shutdownGeth")
+                                shutdownGeth.invoke(obj)
+                                events.pushEvent(StatsLogic.Event.IsOnline(false))
+                                isOnlineVar.value = false
+                                events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+                                state.canGetBlocks = false
+                            }
+                            val changeClient = cls.getMethod("changeClient", String::class.java)
+                            if (it == "Nimbus client") {
+                                changeClient.invoke(obj, "Nimbus")
+                            } else {
+                                changeClient.invoke(obj, "Helios")
+                            }
+
+                            if (before) {
+                                // Start client again
+                                // Delay the starting of the client
+                                Thread {
+                                    Thread.sleep(1000)
+                                    val startGeth = cls.getMethod("startGeth")
+                                    startGeth.invoke(obj)
+                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
+                                    isOnlineVar.value = true
+                                    events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+                                    state.canGetBlocks = false
+                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
+                                    state.isOnline = true
+                                    canGetBlocksVar.value = false
+                                }.start()
+                            }
+
+                            state.blocks.clear()
+                        },
                         title = "Light client",
                         hasTitle = true,
                         icon = {
@@ -265,9 +303,9 @@ fun MainStatsScreen(context: Context) {
                         modifier = Modifier
                             .width(width = 8.dp))
 
-                    if (true) {//state.isOnline
-                        if (isOnlineVar.value) {//if (isOnlineVar.value && state.blocks.size > 0) {
-                            Text("⛓", color = Color.White, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.h4)
+                    if (state.isOnline) {
+                        if (isOnlineVar.value && state.blocks.size > 0) {
+                            Text("⛓", style = MaterialTheme.typography.h4)
                         } else {
                             CircularProgressIndicator(
                                 Modifier
