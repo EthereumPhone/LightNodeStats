@@ -79,7 +79,7 @@ fun BlockDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = "",
-                                tint = Color(0xFF24303D),
+                                tint = Color.Transparent,
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
@@ -95,11 +95,11 @@ fun BlockDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = "Close",
-                                tint = Color(0xFF24303D),//Color.White,
+                                tint = Color.White,
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
-                                    .clickable { }//setShowDialog() }
+                                    .clickable { setShowDialog() }
                             )
                         }
                         Spacer(modifier = Modifier.height(12.dp))
