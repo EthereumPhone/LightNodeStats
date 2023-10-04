@@ -79,7 +79,7 @@ fun InfoDialog(
                         Icon(
                             imageVector = Icons.Rounded.Close,
                             contentDescription = "Close",
-                            tint = Color.Transparent,//(0xFF24303D),//Color.White,
+                            tint = Color.White,//(0xFF24303D),//Color.White,
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
