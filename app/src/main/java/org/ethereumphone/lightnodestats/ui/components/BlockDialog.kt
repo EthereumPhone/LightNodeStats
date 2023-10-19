@@ -70,7 +70,7 @@ fun BlockDialog(
 
                 ) {
 
-                    if (currentBlockToShow.value != null) {
+                    if (currentBlockToShow.value != null) {//currentBlockToShow.value != null
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -95,7 +95,7 @@ fun BlockDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = "Close",
-                                tint = Color.White,
+                                tint = Color(0xFF9FA2A5),
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
@@ -166,6 +166,7 @@ fun BlockDialog(
                                 fontWeight = FontWeight.SemiBold,
                             )
                             Text(
+
                                 text = currentBlockToShow.value!!.miner.substring(
                                     0,
                                     5
@@ -276,17 +277,13 @@ fun EtherscanButton(
 @Composable
 fun PreviewDialogScreen() {
 //    BlockDialog(
-//        currentBlockToShow = MockBlock(
-//                    blocknumber = "1233899433",
-//                    timestamp=  "09/08/2023 @ 5:24pm",
-//                    miner =  "254648256925676384562875592567846525925676574324765562043",
-//                    gasused =  "1234567876"
-//                )
-//        ,
+//
 //        setShowDialog = {},
 //        uiContext = LocalContext.current
 //    )
 }
+
+
 
 //class MockBlock(
 //    val blocknumber: String,

@@ -40,7 +40,7 @@ fun InfoDialog(
     Dialog(onDismissRequest = { setShowDialog() }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFF1E2730),
+            color = Color(0xFF24303D),
             contentColor = Color.White,
             elevation = 4.dp
         ) {
@@ -79,7 +79,7 @@ fun InfoDialog(
                         Icon(
                             imageVector = Icons.Rounded.Close,
                             contentDescription = "Close",
-                            tint = Color.White,//(0xFF24303D),//Color.White,
+                            tint = Color(0xFF9FA2A5),
                             modifier = Modifier
                                 .width(30.dp)
                                 .height(30.dp)
