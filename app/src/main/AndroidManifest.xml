@@ -16,6 +16,7 @@
         android:icon="@drawable/lite_node"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/Theme.LightNodeStats">
         <activity
             android:name=".MainActivity"
