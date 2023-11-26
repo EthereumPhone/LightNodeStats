@@ -26,83 +26,84 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Composable
-fun TopHeader(
-    name: String,
-    icon: @Composable () -> Unit,
-) {
+//@Composable
+//fun TopHeader(
+//    name: String,
+//    icon: ImageVector,
+//    onClick: () -> Unit
+//) {
+//
+//
+//    Column (
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ){
+//        //Address
+//        Row (
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = Modifier.fillMaxWidth(),
+//        ){
+//            IconButton(
+//                onClick = {}
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Outlined.Info,
+//                    contentDescription = "Information",
+//                    tint = Color.Transparent,
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                    //.background(Color.Red)
+//                )
+//            }
+//            Box(
+//                modifier = Modifier
+//                ,
+//            ){
+//                Text(
+//                    modifier = Modifier,
+//                    text = name,
+//                    fontSize = 24.sp,
+//                    fontWeight = FontWeight.SemiBold,
+//                    color = Color.White
+//                )
+//            }
+//            IconButton(
+//                onClick = onClick
+//            ) {
+//                Icon(
+//                    imageVector = icon,
+//                    contentDescription = "Information",
+//                    tint = Color.Transparent,
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                    //.background(Color.Red)
+//                )
+//            }
+//        }
+//        //Networkpill
+//
+//
+//    }
+//}
 
 
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        //Address
-        Row (
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-        ){
-            IconButton(
-                onClick = {}
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "Information",
-                    tint = Color.Transparent,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                    //.background(Color.Red)
-                )
-            }
-            Box(
-                modifier = Modifier
-                ,
-            ){
-                Text(
-                    modifier = Modifier,
-                    text = name,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            }
-            icon()
-        }
-        //Networkpill
-
-
-    }
-}
-
-@ExperimentalComposeUiApi
-@Composable @Preview
-fun PreviewTopHeaderScreen() {
-    ///NftCreatorTheme {
-    val scope = rememberCoroutineScope()
-    val hostState = remember { SnackbarHostState() }
-    TopHeader(
-        "Lightnode",
-        icon = {
-            IconButton(
-                onClick = {}
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "Information",
-                    tint = Color(0xFF9FA2A5),
-                    modifier = Modifier
-                        .clip(CircleShape)
-                    //.background(Color.Red)
-                )
-            }
-        },
-
-        )
-    //}
-}
+//@Composable @Preview
+//fun PreviewTopHeaderScreen() {
+//    ///NftCreatorTheme {
+//    val scope = rememberCoroutineScope()
+//    val hostState = remember { SnackbarHostState() }
+////    TopHeader(
+////        "Lightnode",
+////        icon = Icons.Outlined.Info,
+////        onClick = {}
+////
+////        )
+//    //}
+//}

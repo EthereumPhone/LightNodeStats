@@ -60,10 +60,11 @@ fun InfoBlock(
             }
         }
 
-        Surface (
+        Column (
             modifier = modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
+                .background(Color.Transparent)
         ){
             val Inter = FontFamily(
                 Font(R.font.inter_light,FontWeight.Light),
@@ -81,7 +82,7 @@ fun InfoBlock(
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = Inter
                 ),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(vertical = 16.dp)
             )
 
         }

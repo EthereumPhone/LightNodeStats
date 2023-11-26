@@ -30,7 +30,7 @@ private val ethOSColorPaletteDark = darkColors(
     primaryVariant = SecondaryDark,
     secondary = AccentDark,
     background = black,
-    surface = Surface,
+    surface = black,
     onPrimary = white,
     onSecondary = white,
     onBackground = white,
@@ -62,9 +62,9 @@ fun ethOSTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Color(0xFF1E2730).toArgb() // change color status bar here
-            window.navigationBarColor = Color(0xFF1E2730).toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            window.statusBarColor = Color.Black.toArgb() // change color status bar here
+            window.navigationBarColor = Color.Black.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 

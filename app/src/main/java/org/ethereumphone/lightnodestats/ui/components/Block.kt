@@ -6,9 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +22,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.ethereumphone.lightnodestats.ui.theme.gray
@@ -34,9 +39,6 @@ fun Block(
 ) {
 
     Box(
-        modifier = Modifier.clickable {
-            onClick()
-        }
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,
@@ -46,71 +48,41 @@ fun Block(
                 .fillMaxWidth()
                 .padding(vertical = 12.dp)
         ) {
-            Surface(
+
+            Text(
+                text = ""+number,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp,
                 color = Color.White,
-                modifier = Modifier
-                    .width(width = 56.dp)
-                    .height(height = 56.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_cube),
-                    contentDescription = "Cube",
-                    contentScale = ContentScale.Inside,
-                    colorFilter = ColorFilter.tint(Color(0xFF24303D)),
-                    modifier = Modifier.size(10.dp)
-                )
+                modifier = Modifier.weight(.5f),
+                textAlign = TextAlign.Start
 
-            }
-            Spacer(
-                modifier = Modifier
-                    .width(width = 16.dp))
-            Column(
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = ""+number,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = Color.White
+            )
+            Text(
+                text = tx,
+                fontWeight = FontWeight.Medium,
+                fontSize = 18.sp,
+                color = Color(0xFFC8C8C8),
+                modifier = Modifier.weight(.3f),
+                textAlign = TextAlign.Center
 
-                )
-                Row(
-                    verticalAlignment= Alignment.CenterVertically
+            )
+            Text(text = gas,
+                fontWeight = FontWeight.Medium,
+                fontSize = 18.sp,
+                color = Color(0xFFC8C8C8),
+                modifier = Modifier.weight(.3f),
+                textAlign = TextAlign.Center
+            )
+            IconButton(
+                onClick = onClick,
+                modifier = Modifier.size(32.dp)
+            ) {
+                Box(
+                    modifier = Modifier.weight(.1f),
+                    contentAlignment = Alignment.CenterEnd
                 ){
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_chart),
-                        contentDescription = "Chart",
-                        contentScale = ContentScale.Inside,
-                        colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(width = 8.dp))
-                    Text(
-                        text = tx,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 12.sp,
-                        color = Color(0xFFC8C8C8)
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(width = 16.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_ether),
-                        contentDescription = "Ether",
-                        contentScale = ContentScale.Inside,
-                        colorFilter = ColorFilter.tint(Color(0xFFC8C8C8)),
-                        modifier = Modifier.size(12.dp)
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(width = 8.dp))
-                    Text(text = gas,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 12.sp,
-                        color = Color(0xFFC8C8C8))
+                    Icon(imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "Block Details", tint = Color.White)
                 }
             }
 

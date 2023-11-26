@@ -70,10 +70,11 @@ fun SwitchBlock(
                 icon()
             }
         }
-        Surface(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
+                .background(Color.Black)
         ) {
             val Inter = FontFamily(
                 Font(R.font.inter_light, FontWeight.Light),
@@ -93,7 +94,7 @@ fun SwitchBlock(
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = Inter
                     ),
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
@@ -109,6 +110,7 @@ fun SwitchBlock(
                 onDismissRequest = { expanded.value = false },
                 modifier = Modifier
                     //.padding(horizontal = 24.dp)
+                    .background(Color(0xFF262626))
                     .width(360.dp)
             ) {
                 options.forEach { option ->

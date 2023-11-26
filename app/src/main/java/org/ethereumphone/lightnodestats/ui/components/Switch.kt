@@ -34,7 +34,7 @@ fun Switch(
         modifier = Modifier
             .clip(RoundedCornerShape(50.dp))
             .background(if (horizontalBias == -1f) Color(0xFF9FA2A5) else Color(0xFF94DE7E))
-            .padding(horizontal = 4.dp, vertical = 4.dp)
+            .padding(horizontal = 2.dp, vertical = 2.dp)
             .clickable {
                 horizontalBias *= -1f
                 switchON.value = horizontalBias == 1f

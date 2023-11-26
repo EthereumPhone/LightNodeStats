@@ -12,14 +12,14 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,11 +55,11 @@ import org.web3j.protocol.core.methods.response.EthBlock
 @Composable
 fun MainStatsScreen(context: Context) {
     val context = context
-    val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
-    logic.pushContext(context)
-    val cls = Class.forName("android.os.GethProxy")
-    val obj = context.getSystemService("geth")
-    val getCurrentClient = cls.getMethod("getCurrentClient")
+//    val logic = LocalContext.current.getRetainedLogicBlock<StatsLogic>()
+//    logic.pushContext(context)
+//    val cls = Class.forName("android.os.GethProxy")
+//    //val obj = context.getSystemService("geth")
+//    val getCurrentClient = cls.getMethod("getCurrentClient")
     var showBlockInfo = remember { mutableStateOf(false) }
     var currentBlockToShow = remember { mutableStateOf<EthBlock.Block?>(null) }
     val uiContext = LocalContext.current
@@ -72,16 +73,16 @@ fun MainStatsScreen(context: Context) {
     )
 
     ethOSTheme() {
-        AppBlock(logic) { state, events ->
-            state?.let {
+//        AppBlock(logic) { state, events ->
+//            state?.let {
         val isOnlineVar = remember { mutableStateOf(false)}//state.isOnline) }
-                var canGetBlocksVar = remember { mutableStateOf(state.canGetBlocks) }
+//                var canGetBlocksVar = remember { mutableStateOf(state.canGetBlocks) }
         if (showBlockInfo.value) {
-            BlockDialog(
-                currentBlockToShow = currentBlockToShow,
-                setShowDialog={ showBlockInfo.value = false },
-                uiContext = uiContext
-            )
+//            BlockDialog(
+//                currentBlockToShow = currentBlockToShow,
+//                setShowDialog={ showBlockInfo.value = false },
+//                uiContext = uiContext
+//            )
         }
         val showInfoDialog =  remember { mutableStateOf(false) }
         if(showInfoDialog.value){
@@ -121,7 +122,7 @@ fun MainStatsScreen(context: Context) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = Color(0xff1e2730))
+                .background(color = Color.Black)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -130,26 +131,10 @@ fun MainStatsScreen(context: Context) {
                     .fillMaxHeight()
                     .padding(
                         vertical = 24.dp,
-                        horizontal = 24.dp
+                        horizontal = 32.dp
                     )
             ) {
-                TopHeader(
-                    name = "Light Node",
-                    icon = {
-                        IconButton(
-                            onClick = {showInfoDialog.value = true}
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Info,
-                                contentDescription = "Information",
-                                tint = Color(0xFF9FA2A5),
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                //.background(Color.Red)
-                            )
-                        }
-                    }
-                )
+
                 Spacer(
                     modifier = Modifier
                         .height(height = 28.dp))
@@ -170,16 +155,16 @@ fun MainStatsScreen(context: Context) {
                         Switch(
                             switchON = isOnlineVar,
                             onCheckedChange = {
-                                        if (it) {
-                                            // Turn on light client
-                                            val startGeth = cls.getMethod("startGeth")
-                                            startGeth.invoke(obj)
-                                        } else {
-                                            // Turn off light client
-                                            val shutdownGeth = cls.getMethod("shutdownGeth")
-                                            shutdownGeth.invoke(obj)
-                                        }
-                                        events.pushEvent(StatsLogic.Event.IsOnline(it))
+//                                        if (it) {
+//                                            // Turn on light client
+//                                            val startGeth = cls.getMethod("startGeth")
+//                                            //startGeth.invoke(obj)
+//                                        } else {
+//                                            // Turn off light client
+//                                            val shutdownGeth = cls.getMethod("shutdownGeth")
+//                                            //shutdownGeth.invoke(obj)
+//                                        }
+//                                        events.pushEvent(StatsLogic.Event.IsOnline(it))
                             }
                         )
                     }
@@ -216,7 +201,7 @@ fun MainStatsScreen(context: Context) {
                     Spacer(
                         modifier = Modifier
                             .height(height = 16.dp))
-                            val currentClientText = getCurrentClient.invoke(obj) as String
+                            val currentClientText = "Nimbus"//getCurrentClient.invoke(obj) as String
                             val optionsArray = if (currentClientText == "Nimbus") {
 
                         arrayOf("Nimbus client", "Helios client")
@@ -227,42 +212,42 @@ fun MainStatsScreen(context: Context) {
                         options = optionsArray,
                         onSelectedOption = {
                             println("Selected $it")
-                            var before = state.isOnline
+//                            var before = state.isOnline
 
-                            if (before) {
+//                            if (before) {
                                 // Turn of client first
-                                val shutdownGeth = cls.getMethod("shutdownGeth")
-                                shutdownGeth.invoke(obj)
-                                events.pushEvent(StatsLogic.Event.IsOnline(false))
-                                isOnlineVar.value = false
-                                events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
-                                state.canGetBlocks = false
-                            }
-                            val changeClient = cls.getMethod("changeClient", String::class.java)
+//                                val shutdownGeth = cls.getMethod("shutdownGeth")
+//                                shutdownGeth.invoke(obj)
+//                                events.pushEvent(StatsLogic.Event.IsOnline(false))
+//                                isOnlineVar.value = false
+//                                events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+//                                state.canGetBlocks = false
+//                            }
+//                            val changeClient = cls.getMethod("changeClient", String::class.java)
                             if (it == "Nimbus client") {
-                                changeClient.invoke(obj, "Nimbus")
+//                                changeClient.invoke(obj, "Nimbus")
                             } else {
-                                changeClient.invoke(obj, "Helios")
+//                                changeClient.invoke(obj, "Helios")
                             }
 
-                            if (before) {
-                                // Start client again
-                                // Delay the starting of the client
-                                Thread {
-                                    Thread.sleep(1000)
-                                    val startGeth = cls.getMethod("startGeth")
-                                    startGeth.invoke(obj)
-                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
-                                    isOnlineVar.value = true
-                                    events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
-                                    state.canGetBlocks = false
-                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
-                                    state.isOnline = true
-                                    canGetBlocksVar.value = false
-                                }.start()
-                            }
+//                            if (before) {
+//                                // Start client again
+//                                // Delay the starting of the client
+//                                Thread {
+//                                    Thread.sleep(1000)
+////                                    val startGeth = cls.getMethod("startGeth")
+////                                    startGeth.invoke(obj)
+////                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
+////                                    isOnlineVar.value = true
+////                                    events.pushEvent(StatsLogic.Event.CanGetBlocks(false))
+////                                    state.canGetBlocks = false
+////                                    events.pushEvent(StatsLogic.Event.IsOnline(true))
+////                                    state.isOnline = true
+////                                    canGetBlocksVar.value = false
+//                                }.start()
+//                            }
 
-                            state.blocks.clear()
+//                            state.blocks.clear()
                         },
                         title = "Light client",
                         hasTitle = true,
@@ -303,19 +288,19 @@ fun MainStatsScreen(context: Context) {
                         modifier = Modifier
                             .width(width = 8.dp))
 
-                    if (state.isOnline) {
-                        if (isOnlineVar.value && state.blocks.size > 0) {
-                            Text("⛓", style = MaterialTheme.typography.h4)
-                        } else {
-                            CircularProgressIndicator(
-                                Modifier
-                                    .width(20.dp)
-                                    .height(20.dp),
-                                strokeWidth = 2.dp,
-                                color = Color.White
-                            )
-                        }
-                    }
+//                    if (state.isOnline) {
+//                        if (isOnlineVar.value && state.blocks.size > 0) {
+//                            Text("⛓", style = MaterialTheme.typography.h4)
+//                        } else {
+//                            CircularProgressIndicator(
+//                                Modifier
+//                                    .width(20.dp)
+//                                    .height(20.dp),
+//                                strokeWidth = 2.dp,
+//                                color = Color.White
+//                            )
+//                        }
+//                    }
 
 
 
@@ -326,64 +311,128 @@ fun MainStatsScreen(context: Context) {
                         .height(height = 36.dp))
                 val scope = rememberCoroutineScope()
                 val listState = rememberLazyListState()
-                if (state.isOnline) {
-                    if (isOnlineVar.value && state.blocks.size > 0) {
-                                                LazyColumn(state = listState, reverseLayout = true) {
-                            items(state.blocks.size) { index ->
-                                val block = state.blocks[index]
-                                Block(
-                                    ""+block.number,
-                                    ""+block.transactions.size,
-                                    ""+block.gasUsed.toHumanNumber()
-                                ) {
-                                    currentBlockToShow.value = block
-                                    showBlockInfo.value = true
-                                }
-                            }
-                            scope.launch {
-                                delay(100)
-                                listState.animateScrollToItem(0, scrollOffset = 1000)
-                            }
-                        }
-                    }else{
-                        //Opacity Animation
-                        val transition = rememberInfiniteTransition()
-                        val fadingAnimation by transition.animateFloat(
-                            initialValue = 1.0f,
-                            targetValue = 1f,
-                            animationSpec = infiniteRepeatable(
-                                animation = keyframes {
-                                    durationMillis = 2000
-                                    1.0f at  0 with LinearEasing
-                                    0f at  1000 with LinearEasing
-                                    1.0f at  2000 with LinearEasing
-                                }
-                            )
-                        )
+                Column {
 
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ){
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment= Alignment.CenterVertically,
+
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 18.dp)
+                        ) {
+
                             Text(
-                                modifier = Modifier.alpha(fadingAnimation),
-                                text = "Finding Blocks...",
-                                fontFamily = Inter,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color(0xFF9FA2A5),
-                                fontSize = 16.sp
+                                text = "Block Nr.",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp,
+                                color = Color(0xFFC8C8C8),
+                                modifier = Modifier.weight(.5f),
+                                textAlign = TextAlign.Start
 
                             )
+                            Text(
+                                text = "Tx",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp,
+                                color = Color(0xFFC8C8C8),
+                                modifier = Modifier.weight(.3f),
+                                textAlign = TextAlign.Center
+
+                            )
+                            Text(text = "Gas",
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp,
+                                color = Color(0xFFC8C8C8),
+                                modifier = Modifier.weight(.3f),
+                                textAlign = TextAlign.Center
+                            )
+                            Box(
+                                modifier = Modifier.weight(.1f),
+                                contentAlignment = Alignment.CenterEnd,
+                            ){
+                                Icon(imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "Block Details", tint = Color.Transparent)
+                            }
+
+                        }
+                    }
+
+
+                    LazyColumn(state = listState, reverseLayout = true) {
+                        items(10) { index ->
+                            //val block = state.blocks[index]
+                            Block(
+                                "123456789",
+                                "181",
+                                "0.12345"
+                            ) {
+                                //currentBlockToShow.value = block
+                                showBlockInfo.value = true
+                            }
                         }
                     }
                 }
+//                if (state.isOnline) {
+//                    if (isOnlineVar.value && state.blocks.size > 0) {
+//                                                LazyColumn(state = listState, reverseLayout = true) {
+//                            items(state.blocks.size) { index ->
+//                                val block = state.blocks[index]
+//                                Block(
+//                                    ""+block.number,
+//                                    ""+block.transactions.size,
+//                                    ""+block.gasUsed.toHumanNumber()
+//                                ) {
+//                                    currentBlockToShow.value = block
+//                                    showBlockInfo.value = true
+//                                }
+//                            }
+//                            scope.launch {
+//                                delay(100)
+//                                listState.animateScrollToItem(0, scrollOffset = 1000)
+//                            }
+//                        }
+//                    }else{
+//                        //Opacity Animation
+//                        val transition = rememberInfiniteTransition()
+//                        val fadingAnimation by transition.animateFloat(
+//                            initialValue = 1.0f,
+//                            targetValue = 1f,
+//                            animationSpec = infiniteRepeatable(
+//                                animation = keyframes {
+//                                    durationMillis = 2000
+//                                    1.0f at  0 with LinearEasing
+//                                    0f at  1000 with LinearEasing
+//                                    1.0f at  2000 with LinearEasing
+//                                }
+//                            )
+//                        )
+//
+//                        Box(
+//                            contentAlignment = Alignment.Center,
+//                            modifier = Modifier.fillMaxSize()
+//                        ){
+//                            Text(
+//                                modifier = Modifier.alpha(fadingAnimation),
+//                                text = "Finding Blocks...",
+//                                fontFamily = Inter,
+//                                fontWeight = FontWeight.SemiBold,
+//                                color = Color(0xFF9FA2A5),
+//                                fontSize = 16.sp
+//
+//                            )
+//                        }
+//                    }
+//                }
 
 
 
             }
         }
-            }
-        }
+//            }
+//        }
     }
 }
 
