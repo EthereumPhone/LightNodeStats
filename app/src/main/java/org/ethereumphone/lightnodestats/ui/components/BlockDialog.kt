@@ -3,6 +3,7 @@ package org.ethereumphone.lightnodestats.ui.components
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -54,9 +55,10 @@ fun BlockDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFF24303D),
+            color = Color.Black,
             contentColor = Color.White,
-            elevation = 20.dp
+            border = BorderStroke(width = 1.dp, Color.White),
+            elevation = 2.dp
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -251,7 +253,7 @@ fun EtherscanButton(
         onClick = onClickChange,
         contentPadding = PaddingValues(14.dp,0.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF3C4958),//1E2730),
+            backgroundColor = Color.Transparent,//1E2730),
             contentColor = Color.White
         ),
         enabled = true,
@@ -266,7 +268,7 @@ fun EtherscanButton(
         Text(
             text = text,
             fontWeight = FontWeight.SemiBold,
-            color = Color.White,
+            color = Color(0xFF71B5FF),
             modifier = modifier.padding(0.dp),
         )
 

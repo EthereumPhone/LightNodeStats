@@ -13,6 +13,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +39,6 @@ fun Block(
     gas: String,
     onClick: () -> Unit
 ) {
-
     Box(
     ) {
         Row(
@@ -76,21 +77,19 @@ fun Block(
             )
             IconButton(
                 onClick = onClick,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(18.dp)
             ) {
                 Box(
                     modifier = Modifier.weight(.1f),
                     contentAlignment = Alignment.CenterEnd
                 ){
-                    Icon(imageVector = Icons.Filled.KeyboardArrowRight, contentDescription = "Block Details", tint = Color.White)
+                    Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Block Details", tint = Color(0xFFC8C8C8))
                 }
             }
 
 
         }
     }
-
-
 
 }
 

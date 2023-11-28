@@ -1,5 +1,6 @@
 package org.ethereumphone.lightnodestats.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,9 +41,10 @@ fun InfoDialog(
     Dialog(onDismissRequest = { setShowDialog() }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFF24303D),
+            color = Color.Black,
             contentColor = Color.White,
-            elevation = 4.dp
+            border = BorderStroke(width = 1.dp, Color.White),
+            elevation = 2.dp
         ) {
             Box(
                 contentAlignment = Alignment.Center
