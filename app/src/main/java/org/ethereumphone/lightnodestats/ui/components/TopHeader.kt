@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -18,6 +20,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,81 +32,92 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-//@Composable
-//fun TopHeader(
-//    name: String,
-//    icon: ImageVector,
-//    onClick: () -> Unit
-//) {
-//
-//
-//    Column (
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        //Address
-//        Row (
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier.fillMaxWidth(),
-//        ){
-//            IconButton(
-//                onClick = {}
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Outlined.Info,
-//                    contentDescription = "Information",
-//                    tint = Color.Transparent,
-//                    modifier = Modifier
-//                        .clip(CircleShape)
-//                    //.background(Color.Red)
-//                )
-//            }
-//            Box(
-//                modifier = Modifier
-//                ,
-//            ){
-//                Text(
-//                    modifier = Modifier,
-//                    text = name,
-//                    fontSize = 24.sp,
-//                    fontWeight = FontWeight.SemiBold,
-//                    color = Color.White
-//                )
-//            }
-//            IconButton(
-//                onClick = onClick
-//            ) {
-//                Icon(
-//                    imageVector = icon,
-//                    contentDescription = "Information",
-//                    tint = Color.Transparent,
-//                    modifier = Modifier
-//                        .clip(CircleShape)
-//                    //.background(Color.Red)
-//                )
-//            }
-//        }
-//        //Networkpill
-//
-//
-//    }
-//}
+@Composable
+fun TopHeader(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit = {},
+    title: String,
+    onlyTitle: Boolean = true,
+    trailIcon: Boolean = false,
+    onClick: () -> Unit = {},
+    imageVector: ImageVector = Icons.Outlined.Info
+){
 
 
-//@Composable @Preview
-//fun PreviewTopHeaderScreen() {
-//    ///NftCreatorTheme {
-//    val scope = rememberCoroutineScope()
-//    val hostState = remember { SnackbarHostState() }
-////    TopHeader(
-////        "Lightnode",
-////        icon = Icons.Outlined.Info,
-////        onClick = {}
-////
-////        )
-//    //}
-//}
+    Row (
+        modifier = modifier
+            .fillMaxWidth()
+        ,//.padding(bottom=24.dp),
+        //.background(Color.Red),
+        horizontalArrangement = if(onlyTitle) Arrangement.Center else Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ){
+
+        Row (
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .width(if(onlyTitle) 10.dp else 100.dp)
+        ) {
+
+            IconButton(
+                onClick = {
+                    if (!onlyTitle){
+                        onBackClick()
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.KeyboardArrowLeft,
+                    contentDescription = "Go back",
+                    tint =  if (!onlyTitle) Color.White else Color.Transparent
+                )
+            }
+        }
+
+        //Header title
+        Text(
+            modifier = modifier.weight(1f),
+            textAlign = TextAlign.Center,
+            text = title,
+            fontSize = 28.sp,
+            color = Color.White,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        //Warning or info
+
+        Row (
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .width(if(onlyTitle) 10.dp else 100.dp)
+        ) {
+
+            if (trailIcon){
+                IconButton(
+                    onClick = {
+                        if (!onlyTitle){
+                            onClick()
+                        }
+                    },
+                    modifier  = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = imageVector,
+                        contentDescription = "Go back",
+                        tint =  if (!onlyTitle) Color.White else Color.Transparent,
+                        modifier  = Modifier.size(32.dp)
+                    )
+                }
+            }
+
+        }
+    }
+
+}

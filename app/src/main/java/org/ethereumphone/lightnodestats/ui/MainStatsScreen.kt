@@ -134,20 +134,7 @@ fun MainStatsScreen(context: Context) {
                                 horizontal = 32.dp
                             )
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Light Node",
-                                color = Color.White,
-                                fontFamily = Inter,
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-
-                        }
+                        TopHeader("Light Node")
 
                         Spacer(
                             modifier = Modifier
