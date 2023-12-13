@@ -134,7 +134,7 @@ fun MainStatsScreen(context: Context) {
                                 horizontal = 32.dp
                             )
                     ) {
-                        TopHeader("Light Node")
+                        TopHeader(title="Light Node")
 
                         Spacer(
                             modifier = Modifier
@@ -208,7 +208,6 @@ fun MainStatsScreen(context: Context) {
 
                             val currentClientText = getCurrentClient.invoke(obj) as String
                             val optionsArray = if (currentClientText == "Nimbus") {
-
                                 arrayOf("Nimbus client", "Helios client")
                             } else {
                                 arrayOf("Helios client", "Nimbus client")
@@ -389,36 +388,36 @@ fun MainStatsScreen(context: Context) {
                                             listState.animateScrollToItem(0, scrollOffset = 1000)
                                         }
                                     }
-                                }
-                            } else {
-                                //Opacity Animation
-                                val transition = rememberInfiniteTransition()
-                                val fadingAnimation by transition.animateFloat(
-                                    initialValue = 1.0f,
-                                    targetValue = 1f,
-                                    animationSpec = infiniteRepeatable(
-                                        animation = keyframes {
-                                            durationMillis = 2000
-                                            1.0f at 0 with LinearEasing
-                                            0f at 1000 with LinearEasing
-                                            1.0f at 2000 with LinearEasing
-                                        }
+                                }else{
+                                    //Opacity Animation
+                                    val transition = rememberInfiniteTransition()
+                                    val fadingAnimation by transition.animateFloat(
+                                        initialValue = 1.0f,
+                                        targetValue = 1f,
+                                        animationSpec = infiniteRepeatable(
+                                            animation = keyframes {
+                                                durationMillis = 2000
+                                                1.0f at 0 with LinearEasing
+                                                0f at 1000 with LinearEasing
+                                                1.0f at 2000 with LinearEasing
+                                            }
+                                        )
                                     )
-                                )
 
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    Text(
-                                        modifier = Modifier.alpha(fadingAnimation),
-                                        text = "Finding Blocks...",
-                                        fontFamily = Inter,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = Color(0xFF9FA2A5),
-                                        fontSize = 16.sp
+                                    Box(
+                                        contentAlignment = Alignment.Center,
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+                                        Text(
+                                            modifier = Modifier.alpha(fadingAnimation),
+                                            text = "Finding Blocks...",
+                                            fontFamily = Inter,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = Color(0xFF9FA2A5),
+                                            fontSize = 16.sp
 
-                                    )
+                                        )
+                                    }
                                 }
                             }
                         }
