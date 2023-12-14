@@ -331,7 +331,7 @@ fun MainStatsScreen(context: Context) {
                             ) {
 
                                 Text(
-                                    text = "Block Nr.",
+                                    text = "#",
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp,
                                     color = Color(0xFFC8C8C8),
