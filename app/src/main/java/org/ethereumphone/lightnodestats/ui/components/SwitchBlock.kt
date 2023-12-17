@@ -82,7 +82,7 @@ fun SwitchBlock(
                 Font(R.font.inter_bold, FontWeight.Bold)
             )
 
-            Box(modifier = Modifier.clickable { expanded.value = !expanded.value }) {
+            Box(modifier = Modifier.clickable { expanded.value = !expanded.value }.fillMaxWidth()) {
                 Text(
                     text = selectedOption.value,
                     color = Color.White,
