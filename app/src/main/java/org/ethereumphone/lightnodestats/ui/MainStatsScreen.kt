@@ -438,3 +438,34 @@ fun MainStatsScreen(context: Context) {
 fun PreviewMainScreen() {
     MainStatsScreen(LocalContext.current)
 }
+
+
+@Preview
+@Composable
+fun previewSwitch() {
+    val optionsArray = arrayOf("Nimbus client", "Helios client")
+    SwitchBlock(
+        options = optionsArray,
+        onSelectedOption = {
+
+
+        },
+        title = "Light client",
+        hasTitle = true,
+        icon = {
+            IconButton(
+                modifier = Modifier.size(16.dp),
+                onClick = {  }//}
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "Information",
+                    tint = Color(0xFF9FA2A5),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                    //.background(Color.Red)
+                )
+            }
+        }
+    )
+}
