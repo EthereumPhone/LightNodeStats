@@ -75,4 +75,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.5.2'
     implementation "org.web3j:core:4.8.8-android"
+
+    //ethOS Library
+    implementation("com.github.EthereumPhone:ethOS-Component-Library:d3a62e32b4")
+
 }

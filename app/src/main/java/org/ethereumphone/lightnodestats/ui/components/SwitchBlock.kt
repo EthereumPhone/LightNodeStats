@@ -157,38 +157,4 @@ fun PreviewSwitchBlock() {
     )
 }
 
-/*
-@ExperimentalFoundationApi
-@Preview(showBackground = true)
-@Composable
-fun PreviewTinystatus(
-) {
 
-    val s1 = StatusInfo("Network", "Ethereum Mainnet")
-    val s2 = StatusInfo("Client","Nimbus Verify Proxy")
-    //List<StatusInfo> tmp = listOf(s1,s2)
-    val list = listOf(s1,s2)
-    /*Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-
-    ){
-        Tinystatus("Network","Ethereum Mainnet")
-        Tinystatus("Client","Nimbus Verify Proxy")
-    }*/
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
-        content = {
-            items(list.size) { i ->
-                if(i == list.size-1){
-                    Tinystatus(list[i].label,list[i].text,Modifier.padding(start = 4.dp))
-                } else{
-                    Tinystatus(list[i].label,list[i].text,Modifier.padding(end = 4.dp))
-                }
-
-            }
-
-        }
-    )
-
-}*/

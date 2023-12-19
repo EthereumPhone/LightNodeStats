@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.net.toUri
+import org.ethosmobile.components.library.theme.Colors
 import org.web3j.protocol.core.methods.response.EthBlock
 
 @Composable
@@ -253,8 +254,8 @@ fun EtherscanButton(
         onClick = onClickChange,
         contentPadding = PaddingValues(14.dp,0.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.Transparent,//1E2730),
-            contentColor = Color.White
+            backgroundColor = Colors.WHITE,//1E2730),
+            contentColor = Colors.BLACK
         ),
         enabled = true,
         shape = CircleShape,
@@ -268,7 +269,7 @@ fun EtherscanButton(
         Text(
             text = text,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF71B5FF),
+            color = Colors.BLACK,
             modifier = modifier.padding(0.dp),
         )
 

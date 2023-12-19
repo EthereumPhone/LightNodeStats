@@ -32,7 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
+
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +51,17 @@ import org.ethereumphone.lightnodestats.ui.components.*
 import org.ethereumphone.lightnodestats.ui.theme.*
 import org.web3j.protocol.core.methods.response.EthBlock
 
+import org.ethosmobile.components.library.core.ethOSHeader
+import org.ethosmobile.components.library.core.ethOSInfoDialog
+import org.ethosmobile.components.library.core.ethOSSwitch
+import org.ethosmobile.components.library.lightnode.ethOSBlock
+import org.ethosmobile.components.library.lightnode.ethOSInfoBlock
+import org.ethosmobile.components.library.lightnode.ethOSSwitchBlock
+import org.ethosmobile.components.library.theme.Colors
+import org.ethosmobile.components.library.theme.Fonts
+
+
+
 @ExperimentalFoundationApi
 @Composable
 fun MainStatsScreen(context: Context) {
@@ -64,13 +75,7 @@ fun MainStatsScreen(context: Context) {
     var currentBlockToShow = remember { mutableStateOf<EthBlock.Block?>(null) }
     val uiContext = LocalContext.current
 
-    val Inter = FontFamily(
-        Font(R.font.inter_light,FontWeight.Light),
-        Font(R.font.inter_regular,FontWeight.Normal),
-        Font(R.font.inter_medium,FontWeight.Medium),
-        Font(R.font.inter_semibold,FontWeight.SemiBold),
-        Font(R.font.inter_bold, FontWeight.Bold)
-    )
+
 
     ethOSTheme() {
         AppBlock(logic) { state, events ->
@@ -86,7 +91,7 @@ fun MainStatsScreen(context: Context) {
                 }
                 val showInfoDialog = remember { mutableStateOf(false) }
                 if (showInfoDialog.value) {
-                    InfoDialog(
+                    ethOSInfoDialog(
                         setShowDialog = {
                             showInfoDialog.value = false
                         },
@@ -99,7 +104,7 @@ fun MainStatsScreen(context: Context) {
 
                 val showNetworkDialog = remember { mutableStateOf(false) }
                 if (showNetworkDialog.value) {
-                    InfoDialog(
+                    ethOSInfoDialog(
                         setShowDialog = {
                             showNetworkDialog.value = false
                         },
@@ -109,7 +114,7 @@ fun MainStatsScreen(context: Context) {
                 }
                 val showClientDialog = remember { mutableStateOf(false) }
                 if (showClientDialog.value) {
-                    InfoDialog(
+                    ethOSInfoDialog(
                         setShowDialog = {
                             showClientDialog.value = false
                         },
@@ -117,24 +122,26 @@ fun MainStatsScreen(context: Context) {
                         text = "We currently only support Nimbus Light Client and Helios Light Client"
                     )
                 }
-                Box(
-                    contentAlignment = Alignment.Center,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(color = Color.Black)
+                        .fillMaxSize()
+                        .background(color = Colors.BLACK)
+                        .padding(
+                            vertical = 24.dp,
+                        )
+
                 ) {
+                    ethOSHeader(title="Light Node")
+
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
+                            .fillMaxSize()
                             .padding(
-                                vertical = 24.dp,
                                 horizontal = 32.dp
                             )
                     ) {
-                        TopHeader(title="Light Node")
 
                         Spacer(
                             modifier = Modifier
@@ -149,12 +156,13 @@ fun MainStatsScreen(context: Context) {
                             Text(
                                 text = "OFF/ON",
                                 color = Color.White,
-                                fontFamily = Inter,
+                                fontFamily = Fonts.INTER,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
                             Box(modifier = Modifier.width(60.dp)) {
-                                Switch(
+                               //ethOSBlock
+                                ethOSSwitch(
                                     switchON = isOnlineVar,
                                     onCheckedChange = {
                                         if (it) {
@@ -181,7 +189,7 @@ fun MainStatsScreen(context: Context) {
 
                         Column() {
 
-                            InfoBlock(
+                            ethOSInfoBlock(
                                 text = "Ethereum mainnet",
                                 title = "Network",
                                 hasTitle = true,
@@ -193,7 +201,7 @@ fun MainStatsScreen(context: Context) {
                                         Icon(
                                             imageVector = Icons.Outlined.Info,
                                             contentDescription = "Information",
-                                            tint = Color(0xFF9FA2A5),
+                                            tint = Colors.GRAY,
                                             modifier = Modifier
                                                 .clip(CircleShape)
                                             //.background(Color.Red)
@@ -212,7 +220,8 @@ fun MainStatsScreen(context: Context) {
                             } else {
                                 arrayOf("Helios client", "Nimbus client")
                             }
-                            SwitchBlock(
+                            ethOSSwitchBlock(
+                                modifier = Modifier.fillMaxWidth(),
                                 options = optionsArray,
                                 onSelectedOption = {
 
@@ -274,6 +283,7 @@ fun MainStatsScreen(context: Context) {
                                     }
                                 }
                             )
+
                         }
                         Spacer(
                             modifier = Modifier
@@ -289,7 +299,7 @@ fun MainStatsScreen(context: Context) {
                                 style = TextStyle(
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold,
-                                    fontFamily = Inter
+                                    fontFamily = Fonts.INTER
                                 )
                             )
                             Spacer(
@@ -299,7 +309,11 @@ fun MainStatsScreen(context: Context) {
 
                             if (state.isOnline) {
                                 if (isOnlineVar.value && state.blocks.size > 0) {
-                                    Text("⛓", style = MaterialTheme.typography.h4)
+                                    Text("⛓", style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = Fonts.INTER
+                                    ))
                                 } else {
                                     CircularProgressIndicator(
                                         Modifier
@@ -321,7 +335,9 @@ fun MainStatsScreen(context: Context) {
                         val scope = rememberCoroutineScope()
                         val listState = rememberLazyListState()
 
-                        Column {
+                        Column(
+
+                        ) {
                             Row(
                                 horizontalArrangement = Arrangement.Start,
                                 verticalAlignment = Alignment.CenterVertically,
@@ -334,27 +350,30 @@ fun MainStatsScreen(context: Context) {
                                     text = "#",
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp,
-                                    color = Color(0xFFC8C8C8),
+                                    color = Colors.GRAY,
                                     modifier = Modifier.weight(.5f),
-                                    textAlign = TextAlign.Start
+                                    textAlign = TextAlign.Start,
+                                    fontFamily = Fonts.INTER
 
                                 )
                                 Text(
                                     text = "Tx",
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp,
-                                    color = Color(0xFFC8C8C8),
+                                    color = Colors.GRAY,
                                     modifier = Modifier.weight(.3f),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = Fonts.INTER
 
                                 )
                                 Text(
                                     text = "Gas",
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp,
-                                    color = Color(0xFFC8C8C8),
+                                    color = Colors.GRAY,
                                     modifier = Modifier.weight(.3f),
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = Fonts.INTER
                                 )
                                 Box(
                                     modifier = Modifier.weight(.1f),
@@ -369,12 +388,12 @@ fun MainStatsScreen(context: Context) {
 
                             }
 
-                            if (state.isOnline) {
+                            if (state.isOnline){
                                 if (isOnlineVar.value && state.blocks.size > 0) {
                                     LazyColumn(state = listState, reverseLayout = true) {
                                         items(state.blocks.size) { index ->
                                             val block = state.blocks[index]
-                                            Block(
+                                            ethOSBlock(
                                                 "" + block.number,
                                                 "" + block.transactions.size,
                                                 "" + block.gasUsed.toHumanNumber()
@@ -387,6 +406,15 @@ fun MainStatsScreen(context: Context) {
                                             delay(100)
                                             listState.animateScrollToItem(0, scrollOffset = 1000)
                                         }
+//                                        item {
+//                                            ethOSBlock(
+//                                                number = "1464714",
+//                                                tx = "174",
+//                                                gas = "12M",
+//                                                onClick = {}
+//                                            )
+//                                        }
+
                                     }
                                 }else{
                                     //Opacity Animation
@@ -411,9 +439,9 @@ fun MainStatsScreen(context: Context) {
                                         Text(
                                             modifier = Modifier.alpha(fadingAnimation),
                                             text = "Finding Blocks...",
-                                            fontFamily = Inter,
+                                            fontFamily = Fonts.INTER,
                                             fontWeight = FontWeight.SemiBold,
-                                            color = Color(0xFF9FA2A5),
+                                            color = Colors.GRAY,
                                             fontSize = 16.sp
 
                                         )
