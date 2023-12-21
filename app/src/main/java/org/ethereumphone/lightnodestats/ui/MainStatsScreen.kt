@@ -155,7 +155,7 @@ fun MainStatsScreen(context: Context) {
                         ) {
                             Text(
                                 text = "OFF/ON",
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 fontFamily = Fonts.INTER,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold
@@ -294,7 +294,7 @@ fun MainStatsScreen(context: Context) {
                         ) {
                             Text(
                                 text = "Latest Blocks",
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 lineHeight = 109.sp,
                                 style = TextStyle(
                                     fontSize = 20.sp,
@@ -320,7 +320,7 @@ fun MainStatsScreen(context: Context) {
                                             .width(20.dp)
                                             .height(20.dp),
                                         strokeWidth = 2.dp,
-                                        color = Color.White
+                                        color = Colors.WHITE
                                     )
                                 }
                             }
@@ -382,7 +382,7 @@ fun MainStatsScreen(context: Context) {
                                     Icon(
                                         imageVector = Icons.Filled.KeyboardArrowRight,
                                         contentDescription = "Block Details",
-                                        tint = Color.Transparent
+                                        tint = Colors.TRANSPARENT
                                     )
                                 }
 

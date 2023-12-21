@@ -56,9 +56,9 @@ fun BlockDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.Black,
-            contentColor = Color.White,
-            border = BorderStroke(width = 1.dp, Color.White),
+            color = Colors.BLACK,
+            contentColor = Colors.WHITE,
+            border = BorderStroke(width = 1.dp, Colors.WHITE),
             elevation = 2.dp
         ) {
             Box(
@@ -82,7 +82,7 @@ fun BlockDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = "",
-                                tint = Color.Transparent,
+                                tint = Colors.TRANSPARENT,
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
@@ -116,7 +116,7 @@ fun BlockDialog(
                             Text(
                                 text = "Block number",
                                 fontSize = 16.sp,
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.SemiBold,
                             )
@@ -139,7 +139,7 @@ fun BlockDialog(
                             Text(
                                 text = "Timestamp",
                                 fontSize = 16.sp,
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.SemiBold,
                             )
@@ -164,7 +164,7 @@ fun BlockDialog(
                             Text(
                                 text = "Validator",
                                 fontSize = 16.sp,
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.SemiBold,
                             )
@@ -194,7 +194,7 @@ fun BlockDialog(
                             Text(
                                 text = "Gas used",
                                 fontSize = 16.sp,
-                                color = Color.White,
+                                color = Colors.WHITE,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.SemiBold,
                             )
