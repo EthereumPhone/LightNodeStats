@@ -190,7 +190,7 @@ fun MainStatsScreen(context: Context) {
                         Column() {
 
                             ethOSInfoBlock(
-                                text = "Ethereum mainnet",
+                                text = "Ethereum Mainnet",
                                 title = "Network",
                                 hasTitle = true,
                                 icon = {
@@ -216,9 +216,9 @@ fun MainStatsScreen(context: Context) {
 
                             val currentClientText = getCurrentClient.invoke(obj) as String
                             val optionsArray = if (currentClientText == "Nimbus") {
-                                arrayOf("Nimbus client", "Helios client")
+                                arrayOf("Nimbus Client", "Helios Client")
                             } else {
-                                arrayOf("Helios client", "Nimbus client")
+                                arrayOf("Helios Client", "Nimbus Client")
                             }
                             ethOSSwitchBlock(
                                 modifier = Modifier.fillMaxWidth(),
@@ -265,7 +265,7 @@ fun MainStatsScreen(context: Context) {
                                     state.blocks.clear()
 
                                 },
-                                title = "Light client",
+                                title = "Light Client",
                                 hasTitle = true,
                                 icon = {
                                     IconButton(
