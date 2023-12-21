@@ -80,7 +80,7 @@ fun MainStatsScreen(context: Context) {
     ethOSTheme() {
         AppBlock(logic) { state, events ->
             state?.let {
-                val isOnlineVar = remember { mutableStateOf(false) }//state.isOnline) }
+                val isOnlineVar = remember { mutableStateOf(state.isOnline) }
                 var canGetBlocksVar = remember { mutableStateOf(state.canGetBlocks) }
                 if (showBlockInfo.value) {
                     BlockDialog(
