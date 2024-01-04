@@ -165,7 +165,7 @@ fun MainStatsScreen(context: Context) {
                             showNetworkDialog.value = false
                         },
                         title = "Network",
-                        text = "We currently only support Ethereum mainnet"
+                        text = "ethOS Light Node only supports Ethereum mainnet"
                     )
                 }
                 val showClientDialog = remember { mutableStateOf(false) }
@@ -175,7 +175,7 @@ fun MainStatsScreen(context: Context) {
                             showClientDialog.value = false
                         },
                         title = "Client",
-                        text = "We currently only support Nimbus Light Client and Helios Light Client"
+                        text = "ethOS Light Node only supports Nimbus Light Client and Helios Light Client"
                     )
                 }
 
@@ -303,7 +303,7 @@ fun MainStatsScreen(context: Context) {
                                     }
                                     val changeClient =
                                         cls.getMethod("changeClient", String::class.java)
-                                    if (it == "Nimbus client") {
+                                    if (it == "Nimbus Client") {
                                         changeClient.invoke(obj, "Nimbus")
                                     } else {
                                         changeClient.invoke(obj, "Helios")
@@ -542,7 +542,7 @@ fun previewSwitch() {
 
 
         },
-        title = "Light client",
+        title = "Light Client",
         hasTitle = true,
         icon = {
             IconButton(
