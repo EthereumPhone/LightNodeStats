@@ -20,7 +20,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Token
+import androidx.compose.material.icons.rounded.Token
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,9 +62,15 @@ import org.ethosmobile.components.library.lightnode.ethOSInfoBlock
 import org.ethosmobile.components.library.lightnode.ethOSSwitchBlock
 import org.ethosmobile.components.library.theme.Colors
 import org.ethosmobile.components.library.theme.Fonts
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
+import org.ethereumphone.lightnodestats.data.PreferencesHelper
+import org.ethosmobile.components.library.core.ethOSOnboardingModalBottomSheet
+import org.ethosmobile.components.library.models.OnboardingItem
+import org.ethosmobile.components.library.models.OnboardingObject
 
 
-
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @ExperimentalFoundationApi
 @Composable
 fun MainStatsScreen(context: Context) {
@@ -76,8 +85,55 @@ fun MainStatsScreen(context: Context) {
     val uiContext = LocalContext.current
 
 
+    val modalSheetState = rememberModalBottomSheetState(true)
+    val scope = rememberCoroutineScope()
 
-    ethOSTheme() {
+
+
+
+    var preferenceValue by remember { mutableStateOf("") }
+    // Load preference
+    LaunchedEffect(key1 = Unit) {
+        preferenceValue = PreferencesHelper.getPreference(context, "onboarding_key", "onboarding_uncomplete")
+    }
+
+    if(preferenceValue == "onboarding_uncomplete"){
+        ethOSOnboardingModalBottomSheet(
+            onDismiss = {
+                scope.launch {
+                    modalSheetState.hide()
+                }.invokeOnCompletion {
+
+                }
+                PreferencesHelper.setPreference(context, "onboarding_key", "onboarding_complete")
+            },
+            sheetState = modalSheetState,
+            onboardingObject = OnboardingObject(
+                imageVector = R.drawable.baseline_check_24,
+                title = "Light Node",
+                items = listOf(
+                    OnboardingItem(
+                        imageVector = Icons.Outlined.Hub,
+                        title = "Light Client Proxy",
+                        subtitle = "Connecting to Ethereum has never been more permissionless through your own private light node proxy"
+                    ),
+                    OnboardingItem(
+                        imageVector = Icons.Outlined.Token,
+                        title = "View Latest Blocks",
+                        subtitle = "See the latest blocks loading icon & a Chain emoji ⛓\uFE0F once the node finds blocks. "
+                    ),
+                    OnboardingItem(
+                        imageVector = Icons.Outlined.Info,
+                        title = "Disclaimer",
+                        subtitle = " As running the light node means that a system service must be running in the background when ON, your phone may experience a minimal decrease in battery life."
+                    ),
+
+
+                    )
+            )
+        )
+    }
+    //ethOSTheme() {
         AppBlock(logic) { state, events ->
             state?.let {
                 val isOnlineVar = remember { mutableStateOf(state.isOnline) }
@@ -122,6 +178,14 @@ fun MainStatsScreen(context: Context) {
                         text = "We currently only support Nimbus Light Client and Helios Light Client"
                     )
                 }
+
+
+
+
+
+
+
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
@@ -275,7 +339,7 @@ fun MainStatsScreen(context: Context) {
                                         Icon(
                                             imageVector = Icons.Outlined.Info,
                                             contentDescription = "Information",
-                                            tint = Color(0xFF9FA2A5),
+                                            tint = Colors.GRAY,
                                             modifier = Modifier
                                                 .clip(CircleShape)
                                             //.background(Color.Red)
@@ -457,7 +521,7 @@ fun MainStatsScreen(context: Context) {
             }
 
         }
-    }
+    //}
 }
 
 @ExperimentalFoundationApi

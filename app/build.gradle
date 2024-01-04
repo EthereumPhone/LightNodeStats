@@ -77,6 +77,9 @@ dependencies {
     implementation "org.web3j:core:4.8.8-android"
 
     //ethOS Library
-    implementation("com.github.EthereumPhone:ethOS-Component-Library:d3a62e32b4")
+    implementation("com.github.EthereumPhone:ethOS-Component-Library:137ec355d7")
+    implementation "androidx.compose.material3:material3:1.1.1"
+    implementation "androidx.compose.material:material-icons-extended:1.5.4"
+    implementation 'androidx.preference:preference-ktx:1.1.1'
 
 }
