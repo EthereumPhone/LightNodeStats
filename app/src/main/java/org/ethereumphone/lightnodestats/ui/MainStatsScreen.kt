@@ -65,6 +65,7 @@ import org.ethosmobile.components.library.theme.Fonts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import org.ethereumphone.lightnodestats.data.PreferencesHelper
+import org.ethereumphone.lightnodestats.data.UserStore
 import org.ethosmobile.components.library.core.ethOSOnboardingModalBottomSheet
 import org.ethosmobile.components.library.models.OnboardingItem
 import org.ethosmobile.components.library.models.OnboardingObject
@@ -91,21 +92,25 @@ fun MainStatsScreen(context: Context) {
 
 
 
-    var preferenceValue by remember { mutableStateOf("") }
-    // Load preference
-    LaunchedEffect(key1 = Unit) {
-        preferenceValue = PreferencesHelper.getPreference(context, "onboarding_key", "onboarding_uncomplete")
-    }
+//    var preferenceValue by remember { mutableStateOf("") }
+//    // Load preference
+//    LaunchedEffect(key1 = Unit) {
+//        preferenceValue = PreferencesHelper.getPreference(context, "onboarding_key", "onboarding_uncomplete")
+//    }
+    val store = UserStore(context)
+    val onboarding_complete = store.getUserOnboarding.collectAsState(initial = false)
 
-    if(preferenceValue == "onboarding_uncomplete"){
+    if(!onboarding_complete.value){
         ethOSOnboardingModalBottomSheet(
             onDismiss = {
                 scope.launch {
                     modalSheetState.hide()
+                    store.saveUserOnboarding(true)
                 }.invokeOnCompletion {
 
                 }
-                PreferencesHelper.setPreference(context, "onboarding_key", "onboarding_complete")
+
+                //PreferencesHelper.setPreference(context, "onboarding_key", "onboarding_complete")
             },
             sheetState = modalSheetState,
             onboardingObject = OnboardingObject(
