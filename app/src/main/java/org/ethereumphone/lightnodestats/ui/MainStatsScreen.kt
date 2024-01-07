@@ -1,18 +1,13 @@
 package org.ethereumphone.lightnodestats.ui
 
-import Switch
 import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,29 +15,24 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Hub
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Token
-import androidx.compose.material.icons.rounded.Token
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import com.joaquimverges.helium.compose.AppBlock
 import com.joaquimverges.helium.core.retained.getRetainedLogicBlock
 import kotlinx.coroutines.delay
@@ -51,7 +41,6 @@ import org.ethereumphone.lightnodestats.R
 import org.ethereumphone.lightnodestats.data.toHumanNumber
 import org.ethereumphone.lightnodestats.logic.StatsLogic
 import org.ethereumphone.lightnodestats.ui.components.*
-import org.ethereumphone.lightnodestats.ui.theme.*
 import org.web3j.protocol.core.methods.response.EthBlock
 
 import org.ethosmobile.components.library.core.ethOSHeader
@@ -64,7 +53,7 @@ import org.ethosmobile.components.library.theme.Colors
 import org.ethosmobile.components.library.theme.Fonts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
-import org.ethereumphone.lightnodestats.data.PreferencesHelper
+import org.ethereumphone.lightnodestats.data.UserStore
 import org.ethosmobile.components.library.core.ethOSOnboardingModalBottomSheet
 import org.ethosmobile.components.library.models.OnboardingItem
 import org.ethosmobile.components.library.models.OnboardingObject
@@ -91,21 +80,25 @@ fun MainStatsScreen(context: Context) {
 
 
 
-    var preferenceValue by remember { mutableStateOf("") }
-    // Load preference
-    LaunchedEffect(key1 = Unit) {
-        preferenceValue = PreferencesHelper.getPreference(context, "onboarding_key", "onboarding_uncomplete")
-    }
+//    var preferenceValue by remember { mutableStateOf("") }
+//    // Load preference
+//    LaunchedEffect(key1 = Unit) {
+//        preferenceValue = PreferencesHelper.getPreference(context, "onboarding_key", "onboarding_uncomplete")
+//    }
+    val store = UserStore(context)
+    val onboarding_complete = store.getUserOnboarding.collectAsState(initial = false)
 
-    if(preferenceValue == "onboarding_uncomplete"){
+    if(!onboarding_complete.value){
         ethOSOnboardingModalBottomSheet(
             onDismiss = {
                 scope.launch {
                     modalSheetState.hide()
+                    store.saveUserOnboarding(true)
                 }.invokeOnCompletion {
 
                 }
-                PreferencesHelper.setPreference(context, "onboarding_key", "onboarding_complete")
+
+                //PreferencesHelper.setPreference(context, "onboarding_key", "onboarding_complete")
             },
             sheetState = modalSheetState,
             onboardingObject = OnboardingObject(
@@ -123,7 +116,7 @@ fun MainStatsScreen(context: Context) {
                         subtitle = "See the latest blocks loading icon & a Chain emoji ⛓\uFE0F once the node finds blocks. "
                     ),
                     OnboardingItem(
-                        imageVector = Icons.Outlined.Info,
+                        imageVector = Icons.Outlined.ErrorOutline,
                         title = "Disclaimer",
                         subtitle = " As running the light node means that a system service must be running in the background when ON, your phone may experience a minimal decrease in battery life."
                     ),
