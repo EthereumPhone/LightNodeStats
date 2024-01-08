@@ -88,7 +88,7 @@ fun BlockDialog(
                                     .height(30.dp)
                             )
                             Text(
-                                text = "Block Info",
+                                text = "Block info",
                                 style = TextStyle(
                                     fontSize = 24.sp,
                                     fontFamily = FontFamily.Default,
@@ -98,11 +98,11 @@ fun BlockDialog(
                             Icon(
                                 imageVector = Icons.Rounded.Close,
                                 contentDescription = "Close",
-                                tint = Color(0xFF9FA2A5),
+                                tint = Colors.TRANSPARENT,
                                 modifier = Modifier
                                     .width(30.dp)
                                     .height(30.dp)
-                                    .clickable { setShowDialog() }
+
                             )
                         }
                         Spacer(modifier = Modifier.height(12.dp))
@@ -123,7 +123,7 @@ fun BlockDialog(
                             Text(
                                 text = currentBlockToShow.value!!.number.toString(),
                                 fontSize = 16.sp,
-                                color = Color(0xFF9FA2A5),
+                                color = Colors.GRAY,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.Normal,
                             )
@@ -147,7 +147,7 @@ fun BlockDialog(
                             Text(
                                 text = currentBlockToShow.value!!.timestamp.toString(),
                                 fontSize = 16.sp,
-                                color = Color(0xFF9FA2A5),
+                                color = Colors.GRAY,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.Normal,
                             )
@@ -178,7 +178,7 @@ fun BlockDialog(
                                     currentBlockToShow.value!!.miner.length
                                 ),
                                 fontSize = 16.sp,
-                                color = Color(0xFF9FA2A5),
+                                color = Colors.GRAY,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.Normal,
                             )
@@ -201,7 +201,7 @@ fun BlockDialog(
                             Text(
                                 text = currentBlockToShow.value!!.gasUsed.toString(),
                                 fontSize = 16.sp,
-                                color = Color(0xFF9FA2A5),
+                                color = Colors.GRAY,
                                 textAlign = TextAlign.Left,
                                 fontWeight = FontWeight.Normal,
                             )
@@ -215,7 +215,7 @@ fun BlockDialog(
                             horizontalArrangement = Arrangement.Center
                         ) {
                             EtherscanButton(
-                                text = "Open in etherscan",
+                                text = "Open on etherscan",
                                 onClickChange = {
                                     //Log.e("tag","URL IS "+url.value.text)
                                     val urlIntent = Intent(
