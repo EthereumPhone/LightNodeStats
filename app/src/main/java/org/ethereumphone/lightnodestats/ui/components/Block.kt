@@ -83,7 +83,7 @@ fun Block(
                     modifier = Modifier.weight(.1f),
                     contentAlignment = Alignment.CenterEnd
                 ){
-                    Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Block Details", tint = Color(0xFFC8C8C8))
+                    Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Block details", tint = Color(0xFFC8C8C8))
                 }
             }
 

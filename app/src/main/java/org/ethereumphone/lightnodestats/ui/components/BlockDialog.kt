@@ -88,7 +88,7 @@ fun BlockDialog(
                                     .height(30.dp)
                             )
                             Text(
-                                text = "Block Info",
+                                text = "Block info",
                                 style = TextStyle(
                                     fontSize = 24.sp,
                                     fontFamily = FontFamily.Default,

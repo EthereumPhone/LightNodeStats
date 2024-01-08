@@ -107,12 +107,12 @@ fun MainStatsScreen(context: Context) {
                 items = listOf(
                     OnboardingItem(
                         imageVector = Icons.Outlined.Hub,
-                        title = "Light Client Proxy",
-                        subtitle = "Connecting to Ethereum has never been more permissionless through your own private light node proxy"
+                        title = "Light client proxy",
+                        subtitle = "Connecting to Ethereum has never been more permissionless through your own private light node proxy."
                     ),
                     OnboardingItem(
                         imageVector = Icons.Outlined.Token,
-                        title = "View Latest Blocks",
+                        title = "View latest blocks",
                         subtitle = "See the latest blocks loading icon & a Chain emoji ⛓\uFE0F once the node finds blocks. "
                     ),
                     OnboardingItem(
@@ -158,7 +158,7 @@ fun MainStatsScreen(context: Context) {
                             showNetworkDialog.value = false
                         },
                         title = "Network",
-                        text = "ethOS Light Node only supports Ethereum mainnet"
+                        text = "ethOS light node only supports Ethereum mainnet."
                     )
                 }
                 val showClientDialog = remember { mutableStateOf(false) }
@@ -168,7 +168,7 @@ fun MainStatsScreen(context: Context) {
                             showClientDialog.value = false
                         },
                         title = "Client",
-                        text = "ethOS Light Node only supports Nimbus Light Client and Helios Light Client"
+                        text = "ethOS light node only supports Nimbus light client and Helios light client"
                     )
                 }
 
@@ -189,7 +189,7 @@ fun MainStatsScreen(context: Context) {
                         )
 
                 ) {
-                    ethOSHeader(title="Light Node")
+                    ethOSHeader(title="Light node")
 
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -247,7 +247,7 @@ fun MainStatsScreen(context: Context) {
                         Column() {
 
                             ethOSInfoBlock(
-                                text = "Ethereum Mainnet",
+                                text = "Ethereum mainnet",
                                 title = "Network",
                                 hasTitle = true,
                                 icon = {
@@ -273,9 +273,9 @@ fun MainStatsScreen(context: Context) {
 
                             val currentClientText = getCurrentClient.invoke(obj) as String
                             val optionsArray = if (currentClientText == "Nimbus") {
-                                arrayOf("Nimbus Client", "Helios Client")
+                                arrayOf("Nimbus client", "Helios client")
                             } else {
-                                arrayOf("Helios Client", "Nimbus Client")
+                                arrayOf("Helios client", "Nimbus client")
                             }
                             ethOSSwitchBlock(
                                 modifier = Modifier.fillMaxWidth(),
@@ -296,7 +296,7 @@ fun MainStatsScreen(context: Context) {
                                     }
                                     val changeClient =
                                         cls.getMethod("changeClient", String::class.java)
-                                    if (it == "Nimbus Client") {
+                                    if (it == "Nimbus client") {
                                         changeClient.invoke(obj, "Nimbus")
                                     } else {
                                         changeClient.invoke(obj, "Helios")
@@ -322,7 +322,7 @@ fun MainStatsScreen(context: Context) {
                                     state.blocks.clear()
 
                                 },
-                                title = "Light Client",
+                                title = "Light client",
                                 hasTitle = true,
                                 icon = {
                                     IconButton(
@@ -350,7 +350,7 @@ fun MainStatsScreen(context: Context) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Latest Blocks",
+                                text = "Latest blocks",
                                 color = Colors.WHITE,
                                 lineHeight = 109.sp,
                                 style = TextStyle(
@@ -438,7 +438,7 @@ fun MainStatsScreen(context: Context) {
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.KeyboardArrowRight,
-                                        contentDescription = "Block Details",
+                                        contentDescription = "Block details",
                                         tint = Colors.TRANSPARENT
                                     )
                                 }
@@ -495,7 +495,7 @@ fun MainStatsScreen(context: Context) {
                                     ) {
                                         Text(
                                             modifier = Modifier.alpha(fadingAnimation),
-                                            text = "Finding Blocks...",
+                                            text = "Finding blocks...",
                                             fontFamily = Fonts.INTER,
                                             fontWeight = FontWeight.SemiBold,
                                             color = Colors.GRAY,
