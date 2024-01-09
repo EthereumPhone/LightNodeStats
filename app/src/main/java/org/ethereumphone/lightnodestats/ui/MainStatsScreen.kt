@@ -158,7 +158,7 @@ fun MainStatsScreen(context: Context) {
                             showNetworkDialog.value = false
                         },
                         title = "Network",
-                        text = "ethOS light node only supports Ethereum mainnet."
+                        text = "ethOS light node currently supports Ethereum mainnet."
                     )
                 }
                 val showClientDialog = remember { mutableStateOf(false) }
@@ -168,7 +168,7 @@ fun MainStatsScreen(context: Context) {
                             showClientDialog.value = false
                         },
                         title = "Client",
-                        text = "ethOS light node only supports Nimbus light client and Helios light client"
+                        text = "ethOS light node currently supports Nimbus light client and Helios light client"
                     )
                 }
 
