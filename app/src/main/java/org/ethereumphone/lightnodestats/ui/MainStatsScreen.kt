@@ -158,7 +158,7 @@ fun MainStatsScreen(context: Context) {
                             showNetworkDialog.value = false
                         },
                         title = "Network",
-                        text = "We currently only support Ethereum mainnet"
+                        text = "We currently support Ethereum mainnet"
                     )
                 }
                 val showClientDialog = remember { mutableStateOf(false) }
@@ -168,7 +168,7 @@ fun MainStatsScreen(context: Context) {
                             showClientDialog.value = false
                         },
                         title = "Client",
-                        text = "We currently only support Nimbus light client and Helios light client"
+                        text = "We currently support Nimbus light client and Helios light client"
                     )
                 }
 
@@ -253,12 +253,12 @@ fun MainStatsScreen(context: Context) {
                                 icon = {
                                     IconButton(
                                         modifier = Modifier.size(16.dp),
-                                        onClick = { showNetworkDialog.value = true }//}
+                                        onClick = { }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Outlined.Info,
                                             contentDescription = "Information",
-                                            tint = Colors.GRAY,
+                                            tint = Colors.TRANSPARENT,
                                             modifier = Modifier
                                                 .clip(CircleShape)
                                             //.background(Color.Red)
@@ -327,12 +327,12 @@ fun MainStatsScreen(context: Context) {
                                 icon = {
                                     IconButton(
                                         modifier = Modifier.size(16.dp),
-                                        onClick = { showClientDialog.value = true }//}
+                                        onClick = { }//showClientDialog.value = true }//}
                                     ) {
                                         Icon(
                                             imageVector = Icons.Outlined.Info,
                                             contentDescription = "Information",
-                                            tint = Colors.GRAY,
+                                            tint = Colors.TRANSPARENT,
                                             modifier = Modifier
                                                 .clip(CircleShape)
                                             //.background(Color.Red)
@@ -545,7 +545,7 @@ fun previewSwitch() {
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = "Information",
-                    tint = Color(0xFF9FA2A5),
+                    tint = Colors.TRANSPARENT,
                     modifier = Modifier
                         .clip(CircleShape)
                     //.background(Color.Red)
