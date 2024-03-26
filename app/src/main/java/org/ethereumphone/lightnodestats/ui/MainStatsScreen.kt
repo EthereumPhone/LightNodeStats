@@ -1,17 +1,26 @@
 package org.ethereumphone.lightnodestats.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -45,7 +54,6 @@ import org.web3j.protocol.core.methods.response.EthBlock
 
 import org.ethosmobile.components.library.core.ethOSHeader
 import org.ethosmobile.components.library.core.ethOSInfoDialog
-import org.ethosmobile.components.library.core.ethOSSwitch
 import org.ethosmobile.components.library.lightnode.ethOSBlock
 import org.ethosmobile.components.library.lightnode.ethOSInfoBlock
 import org.ethosmobile.components.library.lightnode.ethOSSwitchBlock
@@ -53,6 +61,7 @@ import org.ethosmobile.components.library.theme.Colors
 import org.ethosmobile.components.library.theme.Fonts
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.ui.BiasAlignment
 import org.ethereumphone.lightnodestats.data.UserStore
 import org.ethosmobile.components.library.core.ethOSOnboardingModalBottomSheet
 import org.ethosmobile.components.library.models.OnboardingItem
@@ -346,123 +355,124 @@ fun MainStatsScreen(context: Context) {
                             modifier = Modifier
                                 .height(height = 48.dp)
                         )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "Latest blocks",
-                                color = Colors.WHITE,
-                                lineHeight = 109.sp,
-                                style = TextStyle(
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = Fonts.INTER
-                                )
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .width(width = 8.dp)
-                            )
-
-                            if (state.isOnline) {
-                                if (isOnlineVar.value && state.blocks.size > 0) {
-                                    Text("⛓", style = TextStyle(
+                        if (isOnline(LocalContext.current)) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Latest blocks",
+                                    color = Colors.WHITE,
+                                    lineHeight = 109.sp,
+                                    style = TextStyle(
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight.Bold,
                                         fontFamily = Fonts.INTER
-                                    ))
-                                } else {
-                                    CircularProgressIndicator(
-                                        Modifier
-                                            .width(20.dp)
-                                            .height(20.dp),
-                                        strokeWidth = 2.dp,
-                                        color = Colors.WHITE
                                     )
+                                )
+                                Spacer(
+                                    modifier = Modifier
+                                        .width(width = 8.dp)
+                                )
+
+                                if (state.isOnline) {
+                                    if (isOnlineVar.value && state.blocks.size > 0) {
+                                        Text("⛓", style = TextStyle(
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = Fonts.INTER
+                                        ))
+                                    } else {
+                                        CircularProgressIndicator(
+                                            Modifier
+                                                .width(20.dp)
+                                                .height(20.dp),
+                                            strokeWidth = 2.dp,
+                                            color = Colors.WHITE
+                                        )
+                                    }
                                 }
+
+
                             }
 
-
-                        }
-
-                        Spacer(
-                            modifier = Modifier
-                                .height(height = 36.dp)
-                        )
-                        val scope = rememberCoroutineScope()
-                        val listState = rememberLazyListState()
-
-                        Column(
-
-                        ) {
-                            Row(
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically,
+                            Spacer(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 18.dp)
+                                    .height(height = 36.dp)
+                            )
+                            val scope = rememberCoroutineScope()
+                            val listState = rememberLazyListState()
+
+                            Column(
+
                             ) {
-
-                                Text(
-                                    text = "#",
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp,
-                                    color = Colors.GRAY,
-                                    modifier = Modifier.weight(.5f),
-                                    textAlign = TextAlign.Start,
-                                    fontFamily = Fonts.INTER
-
-                                )
-                                Text(
-                                    text = "Tx",
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp,
-                                    color = Colors.GRAY,
-                                    modifier = Modifier.weight(.3f),
-                                    textAlign = TextAlign.Center,
-                                    fontFamily = Fonts.INTER
-
-                                )
-                                Text(
-                                    text = "Gas",
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp,
-                                    color = Colors.GRAY,
-                                    modifier = Modifier.weight(.3f),
-                                    textAlign = TextAlign.Center,
-                                    fontFamily = Fonts.INTER
-                                )
-                                Box(
-                                    modifier = Modifier.weight(.1f),
-                                    contentAlignment = Alignment.CenterEnd,
+                                Row(
+                                    horizontalArrangement = Arrangement.Start,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 18.dp)
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.KeyboardArrowRight,
-                                        contentDescription = "Block details",
-                                        tint = Colors.TRANSPARENT
+
+                                    Text(
+                                        text = "#",
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp,
+                                        color = Colors.GRAY,
+                                        modifier = Modifier.weight(.5f),
+                                        textAlign = TextAlign.Start,
+                                        fontFamily = Fonts.INTER
+
                                     )
+                                    Text(
+                                        text = "Tx",
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp,
+                                        color = Colors.GRAY,
+                                        modifier = Modifier.weight(.3f),
+                                        textAlign = TextAlign.Center,
+                                        fontFamily = Fonts.INTER
+
+                                    )
+                                    Text(
+                                        text = "Gas",
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 14.sp,
+                                        color = Colors.GRAY,
+                                        modifier = Modifier.weight(.3f),
+                                        textAlign = TextAlign.Center,
+                                        fontFamily = Fonts.INTER
+                                    )
+                                    Box(
+                                        modifier = Modifier.weight(.1f),
+                                        contentAlignment = Alignment.CenterEnd,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.KeyboardArrowRight,
+                                            contentDescription = "Block details",
+                                            tint = Colors.TRANSPARENT
+                                        )
+                                    }
+
                                 }
 
-                            }
-
-                            if (state.isOnline){
-                                if (isOnlineVar.value && state.blocks.size > 0) {
-                                    LazyColumn(state = listState, reverseLayout = true) {
-                                        items(state.blocks.size) { index ->
-                                            val block = state.blocks[index]
-                                            ethOSBlock(
-                                                "" + block.number,
-                                                "" + block.transactions.size,
-                                                "" + block.gasUsed.toHumanNumber()
-                                            ) {
-                                                currentBlockToShow.value = block
-                                                showBlockInfo.value = true
+                                if (state.isOnline){
+                                    if (isOnlineVar.value && state.blocks.size > 0) {
+                                        LazyColumn(state = listState, reverseLayout = true) {
+                                            items(state.blocks.size) { index ->
+                                                val block = state.blocks[index]
+                                                ethOSBlock(
+                                                    "" + block.number,
+                                                    "" + block.transactions.size,
+                                                    "" + block.gasUsed.toHumanNumber()
+                                                ) {
+                                                    currentBlockToShow.value = block
+                                                    showBlockInfo.value = true
+                                                }
                                             }
-                                        }
-                                        scope.launch {
-                                            delay(100)
-                                            listState.animateScrollToItem(0, scrollOffset = 1000)
-                                        }
+                                            scope.launch {
+                                                delay(100)
+                                                listState.animateScrollToItem(0, scrollOffset = 1000)
+                                            }
 //                                        item {
 //                                            ethOSBlock(
 //                                                number = "1464714",
@@ -472,42 +482,56 @@ fun MainStatsScreen(context: Context) {
 //                                            )
 //                                        }
 
-                                    }
-                                }else{
-                                    //Opacity Animation
-                                    val transition = rememberInfiniteTransition()
-                                    val fadingAnimation by transition.animateFloat(
-                                        initialValue = 1.0f,
-                                        targetValue = 1f,
-                                        animationSpec = infiniteRepeatable(
-                                            animation = keyframes {
-                                                durationMillis = 2000
-                                                1.0f at 0 with LinearEasing
-                                                0f at 1000 with LinearEasing
-                                                1.0f at 2000 with LinearEasing
-                                            }
+                                        }
+                                    }else{
+                                        //Opacity Animation
+                                        val transition = rememberInfiniteTransition()
+                                        val fadingAnimation by transition.animateFloat(
+                                            initialValue = 1.0f,
+                                            targetValue = 1f,
+                                            animationSpec = infiniteRepeatable(
+                                                animation = keyframes {
+                                                    durationMillis = 2000
+                                                    1.0f at 0 with LinearEasing
+                                                    0f at 1000 with LinearEasing
+                                                    1.0f at 2000 with LinearEasing
+                                                }
+                                            )
                                         )
-                                    )
 
-                                    Box(
-                                        contentAlignment = Alignment.Center,
-                                        modifier = Modifier.fillMaxSize()
-                                    ) {
-                                        Text(
-                                            modifier = Modifier.alpha(fadingAnimation),
-                                            text = "Finding blocks...",
-                                            fontFamily = Fonts.INTER,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = Colors.GRAY,
-                                            fontSize = 16.sp
+                                        Box(
+                                            contentAlignment = Alignment.Center,
+                                            modifier = Modifier.fillMaxSize()
+                                        ) {
+                                            Text(
+                                                modifier = Modifier.alpha(fadingAnimation),
+                                                text = "Finding blocks...",
+                                                fontFamily = Fonts.INTER,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Colors.GRAY,
+                                                fontSize = 16.sp
 
-                                        )
+                                            )
+                                        }
                                     }
                                 }
                             }
+                        } else {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Phone offline.",
+                                    color = Colors.WHITE,
+                                    lineHeight = 109.sp,
+                                    style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = Fonts.INTER
+                                    )
+                                )
+                            }
                         }
-
-
                     }
 
                 }
@@ -517,6 +541,88 @@ fun MainStatsScreen(context: Context) {
     //}
 }
 
+fun isOnline(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+        return when {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo ?: return false
+        @Suppress("DEPRECATION")
+        return activeNetworkInfo.isConnected
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Composable
+private fun animateHorizontalAlignmentAsState(
+    targetBiasValue: Float
+): State<BiasAlignment> {
+    val bias by animateFloatAsState(targetBiasValue)
+    return derivedStateOf { BiasAlignment(horizontalBias = bias, verticalBias = 0f) }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ethOSSwitch(
+    modifier: Modifier = Modifier,
+    switchON: MutableState<Boolean>,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onCheckedChange: (Boolean) -> Unit
+) {
+    val context = LocalContext.current
+    var horizontalBias = if (switchON.value) 1f else -1f
+    val alignment by animateHorizontalAlignmentAsState(horizontalBias)
+    BoxWithConstraints(
+        modifier = Modifier
+            .clip(RoundedCornerShape(50.dp))
+            .background(if (horizontalBias == -1f) Colors.GRAY else Color(0xFF94DE7E))
+            .padding(horizontal = 2.dp, vertical = 2.dp)
+            .clickable {
+                if (!switchON.value && !isOnline(context)) {
+                    Toast.makeText(context, "Device is not online currently.", Toast.LENGTH_LONG).show()
+                } else {
+                    horizontalBias *= -1f
+                    switchON.value = horizontalBias == 1f
+                    onCheckedChange(switchON.value)
+                }
+            }
+
+    ) {
+        Box(
+            modifier = Modifier
+                .size(25.dp)
+                .clip(CircleShape)
+                .background(Colors.WHITE)
+                .align(alignment)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.align(Alignment.Center)
+        ) {
+            androidx.compose.material3.Text(
+                text = "".uppercase(),
+                modifier = Modifier.padding(start = 8.dp),
+                color = if (horizontalBias == 1f) Colors.WHITE else Colors.TRANSPARENT,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            androidx.compose.material3.Text(
+                text = "".uppercase(),
+                modifier = Modifier.padding(end = 8.dp),
+                color = if (horizontalBias == -1f) Colors.WHITE else Colors.TRANSPARENT,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
+}
 @ExperimentalFoundationApi
 @Preview(showBackground = true, widthDp = 390, heightDp = 800)
 @Composable
